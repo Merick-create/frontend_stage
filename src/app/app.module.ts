@@ -17,7 +17,7 @@ import { ProductComponent } from './components/product/product.component';
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    CheckoutComponent
+    CheckoutComponent,
     RegisterComponent,
     ProductComponent
   ],
