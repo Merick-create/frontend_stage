@@ -1,0 +1,83 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-4 col-md-6 col-sm-12 border rounded p-4">
+      <form [formGroup]="registerForm" (ngSubmit)="register()">
+
+        <!-- First name -->
+        <div class="form-outline mb-3">
+          <label for="firstName" class="form-label">First Name</label>
+          <input id="firstName" type="text" class="form-control" formControlName="firstName" />
+          <div class="text-danger" *ngIf="registerForm.get('firstName')?.touched && registerForm.get('firstName')?.invalid">
+            First name is required.
+          </div>
+        </div>
+
+        <!-- Last name -->
+        <div class="form-outline mb-3">
+          <label for="lastName" class="form-label">Last Name</label>
+          <input id="lastName" type="text" class="form-control" formControlName="lastName" />
+          <div class="text-danger" *ngIf="registerForm.get('lastName')?.touched && registerForm.get('lastName')?.invalid">
+            Last name is required.
+          </div>
+        </div>
+
+        <!-- Role -->
+        <div class="form-outline mb-3">
+          <label class="form-label">Role</label>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" id="student" value="student" formControlName="role" />
+            <label class="form-check-label" for="student">Student</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" id="teacher" value="teacher" formControlName="role" />
+            <label class="form-check-label" for="teacher">Teacher</label>
+          </div>
+          <div class="text-danger" *ngIf="registerForm.get('role')?.touched && registerForm.get('role')?.invalid">
+            Role is required.
+          </div>
+        </div>
+
+        <!-- Picture URL -->
+        <div class="form-outline mb-3">
+          <label for="picture" class="form-label">Picture URL</label>
+          <input id="picture" type="text" class="form-control" formControlName="picture" />
+        </div>
+
+        <!-- Username (email) -->
+        <div class="form-outline mb-3">
+          <label for="username" class="form-label">Username (email)</label>
+          <input id="username" type="email" class="form-control" formControlName="username" />
+          <div class="text-danger" *ngIf="registerForm.get('username')?.touched && registerForm.get('username')?.invalid">
+            A valid email is required.
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-outline mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input id="password" type="password" class="form-control" formControlName="password" />
+          <div class="text-danger" *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid">
+            Password is required.
+          </div>
+        </div>
+
+        <!-- Error message -->
+        <div class="text-danger text-center mb-3" *ngIf="registerError">
+          {{ registerError }}
+        </div>
+
+        <!-- Submit -->
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary btn-block w-100" [disabled]="registerForm.invalid">
+            Register
+          </button>
+        </div>
+
+
+        <div class="text-center">
+            <p>Do you want to log in? <a routerLink="/login">Login</a></p>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
