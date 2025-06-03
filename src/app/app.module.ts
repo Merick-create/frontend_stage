@@ -9,12 +9,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CurrencyPipe } from '@angular/common';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './utils/auth.interceptor';
+import { CheckoutComponent } from './pages/checkout/checkout.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    CheckoutComponent
   ],
   imports: [
     BrowserModule,
