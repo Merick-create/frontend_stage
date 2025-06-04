@@ -19,7 +19,7 @@ const routes: Routes = [
     component:CheckoutComponent
   },
   {
-    path:'product',
+    path:'',
     component:ProductComponent,
   }
 ];
