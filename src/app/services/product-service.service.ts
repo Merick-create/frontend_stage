@@ -28,4 +28,10 @@ export class ProductServiceService {
   addProduct(product: Product): Observable<Product> {
     return this.http.post<Product>(`${this.apiUrl}/add`, product);
   }
+  getProductsByName(query: { name: string }): Observable<any[]> {
+  return this.http.get<any[]>(`/api/products/search`, { params: query });
+}
+getByCategory(categoryId: string): Observable<Product[]> {
+  return this.http.get<Product[]>(`http://localhost:3000/products/${categoryId}`);
+}
 }

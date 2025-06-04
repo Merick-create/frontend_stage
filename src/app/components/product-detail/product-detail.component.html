@@ -1,0 +1,42 @@
+<div class="product-detail-container" *ngIf="product">
+  <div class="product-image">
+    <img [src]="product.img" alt="{{ product.name }}" />
+  </div>
+
+  <div class="product-info">
+    <h1>{{ product.name }}</h1>
+    <div class="stars">★★★★★</div>
+    <div class="price">{{ product.price | currency: 'EUR' }}</div>
+    <p class="short-description">{{ product.description }}</p>
+
+    <div class="quantity-cart">
+      <label>Quantità:</label>
+      <button (click)="decreaseQty()">-</button>
+      <span>{{ quantity }}</span>
+      <button (click)="increaseQty()">+</button>
+      <button class="add-cart" (click)="addToCart()">🛒 Aggiungi al carrello</button>
+    </div>
+
+    <div class="category">Categoria: {{ categoryName }}</div>
+  </div>
+</div>
+<div class="long-description" *ngIf="product">
+  <h2>Descrizione completa</h2>
+  <p>
+    {{ product.description }}<br /><br />
+    <img [src]="product.img" alt="Immagine 1" />
+    <br /><br />
+    {{ product.description }}<br /><br />
+    <img [src]="product.img" alt="Immagine 2" />
+  </p>
+</div>
+<div class="suggested-products" *ngIf="suggestedProducts.length > 0">
+  <h3>Prodotti consigliati</h3>
+  <div class="product-grid">
+    <div class="product-card" *ngFor="let p of suggestedProducts">
+      <img [src]="p.img" />
+      <h4>{{ p.name }}</h4>
+      <p>{{ p.price | currency: 'EUR' }}</p>
+    </div>
+  </div>
+</div>
