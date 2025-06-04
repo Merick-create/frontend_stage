@@ -10,28 +10,31 @@ import { AuthService } from '../../services/auth.service';
 })
 export class CheckoutComponent implements OnInit {
   products: any[] = [];
+  checkout: any = null;
 
   constructor(private http: HttpClient, public auth: AuthService) {}
 
   ngOnInit(): void {
     this.loadCheckout();
-  }
-
+    }
   loadCheckout() {
     this.http.get<any>('/api/checkout').subscribe({
       next: (checkoutData) => {
-        console.log('Checkout Data:', checkoutData); // ADDED LOG
         if (checkoutData && checkoutData.obj) {
-          const productIds = checkoutData.obj.map((item: any) => item.productId);
-          console.log('Product IDs:', productIds);
-
-          productIds.forEach((id: string) => {
-            this.http.get(`/api/products/${id}`).subscribe({
+          const items = checkoutData.obj;
+          this.checkout = checkoutData;
+          items.forEach((item: any) => {
+            const productId = item.productId;
+            this.http.get(`/api/product/get/${productId}`).subscribe({
               next: (productData) => {
-                console.log('Product details for ID', id + ':', productData); // ADDED LOG
-                this.products.push(productData);
+                this.products.push({
+                  product: productData,
+                  quantity: item.quantity,
+                  price: item.price,
+                  totalPrice:item.totalPrice
+                });
               },
-              error: (err) => console.error(`Error fetching product with ID ${id}:`, err)
+              error: (err) => console.error(`Error fetching product with ID ${productId}:`, err)
             });
           });
         } else {
@@ -43,4 +46,5 @@ export class CheckoutComponent implements OnInit {
       }
     });
   }
+
 }

@@ -1,30 +1,29 @@
-<!--<div class="container mt-4" *ngIf="checkout; else loading">
+<div class="container mt-4" *ngIf="products.length; else loading">
   <h2 class="mb-4">Your Checkout</h2>
 
-  <div class="card mb-3" *ngFor="let item of checkout.obj">
+  <div class="card mb-3" *ngFor="let item of products">
     <div class="card-body">
-      <h5 class="card-title">Product ID: {{ item.productId }}</h5>
+      <h5 class="card-title">{{ item.product.name }}</h5>
+      <img [src]="item.product.img" alt="{{ item.product.name }}" >
+      <p class="card-text">{{ item.product.description }}</p>
       <p class="card-text">Quantity: {{ item.quantity }}</p>
       <p class="card-text">Price per item: ${{ item.price }}</p>
-      <p class="card-text fw-bold">Total: ${{ item.price * item.quantity }}</p>
+    </div>
+
+    <div class="alert alert-primary text-end fw-bold">
+        Total: ${{ item.quantity * item.price }}
     </div>
   </div>
-
-  <div class="alert alert-primary text-end fw-bold">
-    Total Price: ${{ checkout.totalPrice }}
-  </div>
 </div>
+
+<div class="alert alert-primary text-end fw-bold" *ngIf="checkout">
+  Total Price: ${{ checkout.totalPrice }}
+</div>
+
 
 <ng-template #loading>
   <div class="text-center mt-5">
     <div class="spinner-border text-primary" role="status"></div>
     <p>Loading...</p>
   </div>
-</ng-template>-->
-
-
-<div *ngFor="let product of products">
-  <p>{{ product.name }}</p>
-  <img [src]="product.imageUrl" alt="{{ product.name }}">
-  <p>{{ product.description }}</p>
-</div>
+</ng-template>
