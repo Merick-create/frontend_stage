@@ -21,9 +21,9 @@ import { CartComponent } from './pages/cart/cart.component';
     CheckoutComponent,
     RegisterComponent,
     ProductComponent,
-    ProductDetailComponent
+    ProductDetailComponent,
     ProductComponent,
-    CartComponent
+    CartComponent,
   ],
   imports: [
     BrowserModule,

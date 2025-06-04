@@ -24,7 +24,7 @@ interface CartItem {
 export class CartComponent implements OnInit {
   cartItems: CartItem[] = [];
   loading = true;
-  errorMessage: string | null = null; // Aggiunto per gestire i messaggi di errore
+  errorMessage: string | null = null;
 
   constructor(private http: HttpClient) {}
 
@@ -64,18 +64,35 @@ export class CartComponent implements OnInit {
     this.updateQuantity(item, newQuantity);
   }
 
+
   decreaseQuantity(item: CartItem): void {
     if (item.quantity > 1) {
       const newQuantity = item.quantity - 1;
       this.updateQuantity(item, newQuantity);
+    } else if (item.quantity === 1) {
+      this.errorMessage = null;
+      this.http.delete<{ success: boolean }>(`/api/cart/${item.id}`).subscribe({
+        next: () => {
+          // Rimuove l'elemento dal carrello
+          this.cartItems = this.cartItems.filter(i => i.id !== item.id);
+        },
+        error: (err: HttpErrorResponse) => {
+          if (err.error && err.error.error) {
+            this.errorMessage = err.error.error;
+          } else {
+            this.errorMessage = 'Errore durante la rimozione del prodotto dal carrello';
+          }
+          console.error('Errore nella DELETE', err);
+        }
+      });
     }
   }
 
+
   private updateQuantity(item: CartItem, newQuantity: number): void {
-    this.errorMessage = null; // Resetta il messaggio di errore prima di ogni operazione
+    this.errorMessage = null;
     const oldQuantity = item.quantity;
-    
-    // Aggiornamento ottimistico
+  
     item.quantity = newQuantity;
     
     this.http.patch<CartItem>(`/api/cart/${item.id}`, { quantity: newQuantity }).subscribe({
@@ -86,7 +103,6 @@ export class CartComponent implements OnInit {
         }
       },
       error: (err: HttpErrorResponse) => {
-        // Ripristina la quantità precedente
         item.quantity = oldQuantity;
         
         // Estrai il messaggio di errore dalla risposta
