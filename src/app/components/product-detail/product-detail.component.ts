@@ -3,6 +3,8 @@ import { ProductServiceService } from '../../services/product-service.service';
 import { ActivatedRoute } from '@angular/router';
 import { Product } from '../../entities/Product';
 import { CategoryService } from '../../services/category.service';
+import { AuthService } from '../../services/auth.service';
+import { ReviewsService } from '../../services/reviews.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -15,11 +17,15 @@ export class ProductDetailComponent implements OnInit {
   quantity = 1;
   suggestedProducts: Product[] = [];
   categoryName: string = '';
+  selectedRating = 0;
+  isLoggedIn = false;
 
   constructor(
     private route: ActivatedRoute,
     private productService: ProductServiceService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private authService:AuthService,
+    private reviewsService:ReviewsService
   ) {}
 
   ngOnInit(): void {
@@ -27,6 +33,9 @@ export class ProductDetailComponent implements OnInit {
     if (id) {
       this.loadProduct(id);
     }
+    this.authService.isAuthenticated$.subscribe(status => {
+    this.isLoggedIn = status;
+  });
   }
 
   loadProduct(id: string) {
@@ -61,4 +70,19 @@ export class ProductDetailComponent implements OnInit {
   addToCart() {
     console.log('Aggiunto al carrello:', this.product, 'Quantità:', this.quantity);
   }
+  submitStarReview(star: number) {
+  this.selectedRating = star;
+
+  if (!this.product?.id) return;
+
+  this.reviewsService.addReview(this.product.id, star).subscribe({
+    next: () => {
+      alert('Grazie per il tuo voto!');
+    },
+    error: (err) => {
+      console.error(err);
+      alert('Errore durante l\'invio della recensione');
+    }
+  });
+}
 }

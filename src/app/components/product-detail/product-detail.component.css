@@ -133,6 +133,22 @@
   color: #333;
 }
 
+.stars {
+  display: inline-block;
+  cursor: pointer;
+  margin-top: 5px;
+}
+
+.star {
+  font-size: 24px;
+  color: lightgray;
+  user-select: none;
+}
+
+.star.filled {
+  color: gold;
+}
+
 /* Responsive tweaks */
 @media (min-width: 768px) {
   .product-detail-container {
