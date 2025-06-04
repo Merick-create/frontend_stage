@@ -12,27 +12,20 @@ export class ProductServiceService {
 
   constructor(private http: HttpClient) { }
 
-  getProducts(): Observable<Product[]> {
+  getAll(): Observable<Product[]> {
     return this.http.get<Product[]>(`${this.apiUrl}/lista`);
   }
 
-  getProductById(id: string): Observable<Product> {
+  getById(id: string): Observable<Product> {
     return this.http.get<Product>(`${this.apiUrl}/get/${id}`);
   }
 
-
-  addProduct(product: AddProdcutDTO): Observable<Product> {
-    return this.http.post<Product>(`${this.apiUrl}/add`, product);
+  getByName(name: string): Observable<Product[]> {
+    const params = new HttpParams().set('name', name);
+    return this.http.get<Product[]>(`${this.apiUrl}/getByname`, { params });
   }
 
-  searchProducts(queryParams: OptionalProductDTO): Observable<Product[]> {
-    let params = new HttpParams();
-    for (const key in queryParams) {
-      if (queryParams.hasOwnProperty(key) && queryParams[key as keyof OptionalProductDTO] !== undefined && queryParams[key as keyof OptionalProductDTO] !== null) {
-        params = params.append(key, queryParams[key as keyof OptionalProductDTO]!.toString());
-      }
-    }
-   
-    return this.http.get<Product[]>(`${this.apiUrl}/getByname`, { params });
+  addProduct(product: Product): Observable<Product> {
+    return this.http.post<Product>(`${this.apiUrl}/add`, product);
   }
 }

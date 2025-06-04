@@ -1,10 +1,10 @@
 export type Product={
-    id:String;
+    id?:String;
     id_categoria:string;
     name:string; 
     price:number;
     description:string;
-    qauntity:number;
+    quantity:number;
     img:string;
 }
 

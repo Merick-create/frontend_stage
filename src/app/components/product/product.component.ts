@@ -11,7 +11,7 @@ import { ProductServiceService } from '../../services/product-service.service';
 export class ProductComponent implements OnInit {
    products: Product[] = [];
   errorMessage: string | null = null;
-  newProduct: AddProdcutDTO = {
+  newProduct: Product = {
     id_categoria: '',
     name: '',
     price: 0,
@@ -19,90 +19,45 @@ export class ProductComponent implements OnInit {
     quantity: 0,
     img: ''
   };
-  searchName: string = '';
-  selectedProductId: string = '';
-  selectedProduct: Product | null = null;
+  searchTerm: string = '';
+  isAdmin = true;
 
-  constructor(private productService: ProductServiceService) { }
+  constructor(private productService: ProductServiceService) {}
 
-  ngOnInit(): void {
-    this.loadProducts();
+  ngOnInit() {
+    this.fetchProducts();
   }
-  loadProducts(): void {
-    this.errorMessage = null;
-    this.productService.getProducts().subscribe({
-      next: (data) => {
-        this.products = data;
-      },
-      error: (err) => {
-        this.errorMessage = 'Errore durante il recupero dei prodotti: ' + (err.error?.error || err.message);
-        console.error(err);
-      }
+
+  fetchProducts() {
+    this.productService.getAll().subscribe(data => {
+      this.products = data;
     });
   }
-  addNewProduct(): void {
-    this.errorMessage = null;
+
+  searchProducts() {
+    if (this.searchTerm.trim()) {
+      this.productService.getByName(this.searchTerm).subscribe(data => {
+        this.products = data;
+      });
+    } else {
+      this.fetchProducts(); 
+    }
+  }
+
+
+  addProduct() {
     this.productService.addProduct(this.newProduct).subscribe({
-      next: (product) => {
-        this.products.push(product);
-        this.resetNewProductForm();
-        alert('Prodotto aggiunto con successo!');
-      },
-      error: (err) => {
-        this.errorMessage = 'Errore durante l\'aggiunta del prodotto: ' + (err.error?.error || err.message);
-        console.error(err);
+      next: () => {
+        this.fetchProducts();
+        this.newProduct = {
+          id_categoria: '',
+          name: '',
+          price: 0,
+          description: '',
+          quantity: 0,
+          img: ''
+        };
       }
     });
-  }
-
-  searchProductsByName(): void {
-    if (!this.searchName) {
-      this.loadProducts(); 
-      return;
-    }
-
-    this.errorMessage = null;
-    const query: OptionalProductDTO = { name: this.searchName };
-    this.productService.searchProducts(query).subscribe({
-      next: (data) => {
-        this.products = data;
-        if (data.length === 0) {
-          this.errorMessage = 'Nessun prodotto trovato con questo nome.';
-        }
-      },
-      error: (err) => {
-        this.errorMessage = 'Errore durante la ricerca dei prodotti: ' + (err.error?.error || err.message);
-        console.error(err);
-      }
-    });
-  }
-  getProductDetails(): void {
-    if (!this.selectedProductId) {
-      this.selectedProduct = null;
-      return;
-    }
-
-    this.errorMessage = null;
-    this.productService.getProductById(this.selectedProductId).subscribe({
-      next: (product) => {
-        this.selectedProduct = product;
-      },
-      error: (err) => {
-        this.selectedProduct = null;
-        this.errorMessage = 'Prodotto non trovato o errore durante il recupero: ' + (err.error?.error || err.message);
-        console.error(err);
-      }
-    });
-  }
-
-  private resetNewProductForm(): void {
-    this.newProduct = {
-      id_categoria: '',
-      name: '',
-      price: 0,
-      description: '',
-      quantity: 0,
-      img: ''
-    };
   }
 }

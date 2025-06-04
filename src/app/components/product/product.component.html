@@ -1,98 +1,63 @@
-<div class="product-management-container">
-  <h1>Gestione Prodotti</h1>
-
-  <div *ngIf="errorMessage" class="error-message">
-    {{ errorMessage }}
+<!-- HEADER -->
+<header class="site-header">
+  <div class="logo">TechStore</div>
+  <div class="search-bar">
+    <input
+      type="text"
+      [(ngModel)]="searchTerm"
+      placeholder="Cerca per nome prodotto"
+    />
+    <button (click)="searchProducts()">🔍 Cerca</button>
   </div>
+</header>
 
-  <hr class="divider">
+<!-- SEZIONE PRODOTTI -->
+<main class="product-section">
+  <h1 class="section-title">Prodotti Disponibili</h1>
 
-  <section class="add-product-section">
-    <h2>Aggiungi Nuovo Prodotto</h2>
-    <form (ngSubmit)="addNewProduct()">
-      <div class="form-grid">
-        <div class="form-group">
-          <label for="category">ID Categoria:</label>
-          <input type="text" id="category" [(ngModel)]="newProduct.id_categoria" name="id_categoria" required>
-        </div>
-        <div class="form-group">
-          <label for="name">Nome:</label>
-          <input type="text" id="name" [(ngModel)]="newProduct.name" name="name" required>
-        </div>
-        <div class="form-group">
-          <label for="price">Prezzo:</label>
-          <input type="number" id="price" [(ngModel)]="newProduct.price" name="price" required>
-        </div>
-        <div class="form-group">
-          <label for="quantity">Quantità:</label>
-          <input type="number" id="quantity" [(ngModel)]="newProduct.quantity" name="quantity" required>
-        </div>
-        <div class="form-group full-width">
-          <label for="description">Descrizione:</label>
-          <textarea id="description" [(ngModel)]="newProduct.description" name="description"></textarea>
-        </div>
-        <div class="form-group full-width">
-          <label for="img">URL Immagine (Opzionale):</label>
-          <input type="text" id="img" [(ngModel)]="newProduct.img" name="img">
-        </div>
-      </div>
-      <button type="submit" class="primary-button">Aggiungi Prodotto</button>
-    </form>
-  </section>
-
-  <hr class="divider">
-
-  <section class="search-section">
-    <h2>Cerca Prodotti</h2>
-    <div class="search-controls">
-      <div class="search-input-group">
-        <input type="text" [(ngModel)]="searchName" placeholder="Cerca per nome prodotto..." class="search-input">
-        <button (click)="searchProductsByName()" class="secondary-button">Cerca</button>
-      </div>
-      <button (click)="loadProducts()" class="tertiary-button">Mostra Tutti i Prodotti</button>
+  <div class="product-grid">
+    <div class="product-card" *ngFor="let product of products">
+      <img [src]="product.img" alt="{{ product.name }}" />
+      <h2>{{ product.name }}</h2>
+      <p>{{ product.description }}</p>
+      <strong>{{ product.price | currency: 'EUR' }}</strong>
     </div>
+  </div>
+</main>
 
-    <div class="search-by-id">
-      <h3>Dettagli Prodotto per ID</h3>
-      <div class="search-input-group">
-        <input type="text" [(ngModel)]="selectedProductId" placeholder="Inserisci ID prodotto..." class="search-input">
-        <button (click)="getProductDetails()" class="secondary-button">Vedi Dettagli</button>
-      </div>
-      <div *ngIf="selectedProduct" class="product-detail-card">
-        <h4>{{ selectedProduct.name }}</h4>
-        <p><strong>ID:</strong> {{ selectedProduct.id }}</p>
-        <p><strong>Categoria:</strong> {{ selectedProduct.id_categoria }}</p>
-        <p><strong>Prezzo:</strong> €{{ selectedProduct.price | number:'1.2-2' }}</p>
-        <p><strong>Quantità:</strong> {{ selectedProduct.qauntity }}</p>
-        <p><strong>Descrizione:</strong> {{ selectedProduct.description }}</p>
-        <div *ngIf="selectedProduct.img" class="product-image-container">
-          <img [src]="selectedProduct.img" alt="Immagine prodotto">
-        </div>
-      </div>
-    </div>
-  </section>
+<!-- FORM ADMIN -->
+<section *ngIf="isAdmin" class="admin-form">
+  <h3>Aggiungi Prodotto</h3>
 
-  <hr class="divider">
-
-  <section class="product-list-section">
-    <h2>Lista Prodotti Disponibili</h2>
-    <div class="product-cards-grid">
-      <div *ngFor="let product of products" class="product-card">
-        <div class="product-image-container" *ngIf="product.img">
-          <img [src]="product.img" alt="Immagine di {{ product.name }}">
-        </div>
-        <div class="product-info">
-          <h3 class="product-title">{{ product.name }}</h3>
-          <p class="product-category">Categoria: {{ product.id_categoria }}</p>
-          <p class="product-price">€{{ product.price | number:'1.2-2' }}</p>
-          <p class="product-quantity">Disponibilità: {{ product.qauntity }} unità</p>
-          <p class="product-description">{{ product.description }}</p>
-          <span class="product-id">ID: {{ product.id }}</span>
-        </div>
-      </div>
-      <div *ngIf="products.length === 0 && !errorMessage" class="no-products-message">
-        <p>Nessun prodotto disponibile al momento.</p>
-      </div>
-    </div>
-  </section>
-</div>
+  <input
+    type="text"
+    placeholder="Nome"
+    [(ngModel)]="newProduct.name"
+  />
+  <input
+    type="text"
+    placeholder="Categoria"
+    [(ngModel)]="newProduct.id_categoria"
+  />
+  <input
+    type="number"
+    placeholder="Prezzo"
+    [(ngModel)]="newProduct.price"
+  />
+  <input
+    type="text"
+    placeholder="Descrizione"
+    [(ngModel)]="newProduct.description"
+  />
+  <input
+    type="number"
+    placeholder="Quantità"
+    [(ngModel)]="newProduct.quantity"
+  />
+  <input
+    type="text"
+    placeholder="URL Immagine"
+    [(ngModel)]="newProduct.img"
+  />
+  <button (click)="addProduct()">Aggiungi</button>
+</section>

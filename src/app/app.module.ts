@@ -1,4 +1,4 @@
-import { DEFAULT_CURRENCY_CODE, LOCALE_ID, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -17,7 +17,7 @@ import { ProductComponent } from './components/product/product.component';
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    CheckoutComponent
+    CheckoutComponent,
     RegisterComponent,
     ProductComponent
   ],
@@ -28,8 +28,6 @@ import { ProductComponent } from './components/product/product.component';
     ReactiveFormsModule
   ],
   providers: [
-    { provide: DEFAULT_CURRENCY_CODE, useValue: 'EUR' },
-    { provide: LOCALE_ID, useValue: 'it-IT' },
     CurrencyPipe,
     provideHttpClient(
       withInterceptors([authInterceptor]),
