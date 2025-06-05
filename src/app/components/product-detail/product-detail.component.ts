@@ -85,4 +85,8 @@ export class ProductDetailComponent implements OnInit {
     }
   });
 }
+
+buyNow(){
+  
+}
 }

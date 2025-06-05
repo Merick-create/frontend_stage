@@ -1,63 +1,62 @@
-<div class="product-detail-container" *ngIf="product">
-    <div class="product-image">
-        <img [src]="product.img" alt="{{ product.name }}" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dettaglio Prodotto</title>
+  <link rel="stylesheet" href="product-detail.component.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="product-container" *ngIf="product">
+
+    <!-- Riquadro dell'immagine del prodotto -->
+    <div class="image-box">
+      <img [src]="product.img" alt="{{ product.name }}" />
     </div>
 
-    <div class="product-info">
-        <h1>{{ product.name }}</h1>
+    <!-- Riquadro dei dettagli del prodotto -->
+    <div class="details-box">
+      <h1 class="product-title">{{ product.name }}</h1>
 
-        <!-- Se l'utente è loggato, mostra le stelline cliccabili -->
-       <div *ngIf="isLoggedIn">
-  <h3>Vota questo prodotto</h3>
-  <div class="stars" role="radiogroup" aria-label="Valutazione prodotto" style="font-size: 24px; color: gold; cursor: pointer;">
-    <span
-      *ngFor="let star of [1,2,3,4,5]"
-      (click)="submitStarReview(star)"
-      [attr.aria-checked]="star === selectedRating"
-      role="radio"
-      style="user-select: none; padding: 0 4px;"
-    >
-      {{ star <= selectedRating ? '★' : '☆' }}
-    </span>
+      <div class="product-meta">
+        <div class="reviews">
+          <span 
+            *ngFor="let star of [1,2,3,4,5]" 
+            (click)="submitStarReview(star)" 
+            [class.active]="star <= selectedRating"
+            class="star"
+          >
+            &#9733;
+          </span>
+          <span>({{ selectedRating }} {{ selectedRating === 1 ? 'Review' : 'Reviews' }})</span>
+        </div>
+      </div>
+
+      <div class="price-section">
+        <span class="current-price">${{ product.price }}</span>
+      </div>
+
+      <p class="description">{{ product.description }}</p>
+
+      <div class="actions">
+        <div class="quantity-selector">
+          <button (click)="decreaseQty()">-</button>
+          <span>{{ quantity }}</span>
+          <button (click)="increaseQty()">+</button>
+        </div>
+        <button class="add-to-cart" (click)="addToCart()">ADD TO CART</button>
+        <button class="icon-button"><i class="far fa-heart"></i></button>
+        <button class="icon-button"><i class="fas fa-exchange-alt"></i></button>
+      </div>
+
+      <button class="buy-now" (click)="buyNow()">Buy Now</button>
+
+      <div class="category-tags">
+        <p id="categoria">Categoria: <a href="#">{{ categoryName }}</a></p>
+      </div>
+    </div>
+
   </div>
-</div>
-        <div *ngIf="!isLoggedIn">
-            <p>Effettua il login per lasciare una valutazione.</p>
-        </div>
-
-        <div class="price">{{ product.price | currency: 'EUR' }}</div>
-        <p class="short-description">{{ product.description }}</p>
-
-        <div class="quantity-cart">
-            <label>Quantità:</label>
-            <button (click)="decreaseQty()">-</button>
-            <span>{{ quantity }}</span>
-            <button (click)="increaseQty()">+</button>
-            <button class="add-cart" (click)="addToCart()">🛒 Aggiungi al carrello</button>
-        </div>
-
-        <div class="category">Categoria: {{ categoryName }}</div>
-    </div>
-</div>
-
-<div class="long-description" *ngIf="product">
-    <h2>Descrizione completa</h2>
-    <p>
-        {{ product.description }}<br /><br />
-        <img [src]="product.img" alt="Immagine 1" />
-        <br /><br />
-        {{ product.description }}<br /><br />
-        <img [src]="product.img" alt="Immagine 2" />
-    </p>
-</div>
-
-<div class="suggested-products" *ngIf="suggestedProducts.length > 0">
-    <h3>Prodotti consigliati</h3>
-    <div class="product-grid">
-        <div class="product-card" *ngFor="let p of suggestedProducts">
-            <img [src]="p.img" />
-            <h4>{{ p.name }}</h4>
-            <p>{{ p.price | currency: 'EUR' }}</p>
-        </div>
-    </div>
-</div>
+</body>
+</html>
