@@ -77,7 +77,7 @@ export class ProductDetailComponent implements OnInit {
 
   this.reviewsService.addReview(this.product.id, star).subscribe({
     next: () => {
-      alert('Grazie per il tuo voto!');
+      console.log("recensione fatta");
     },
     error: (err) => {
       console.error(err);
