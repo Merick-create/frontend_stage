@@ -1,5 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 interface Product {
   _id: string;
@@ -22,6 +23,7 @@ interface CartItem {
   styleUrls: ['./side-cart.component.css']
 })
 export class SideCartComponent implements OnInit {
+  protected router=inject(Router)
   cartItems: CartItem[] = [];
   loading = true;
   errorMessage: string | null = null;
@@ -119,5 +121,9 @@ export class SideCartComponent implements OnInit {
   }
   dismissError() {
     this.errorMessage = null;
+  }
+
+  goToCart(){
+    this.router.navigate([`/cart`])
   }
 }

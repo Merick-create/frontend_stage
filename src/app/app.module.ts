@@ -13,6 +13,8 @@ import { ProductComponent } from './components/product/product.component';
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { SideCartComponent } from './components/side-cart/side-cart.component';
+import { NavBarComponent } from './components/nav-bar-login-logout/nav-bar.component';
+import { NavBarTabsComponent } from './components/nav-bar-tabs/nav-bar-tabs.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { SideCartComponent } from './components/side-cart/side-cart.component';
     ProductComponent,
     CartComponent,
     SideCartComponent,
+    NavBarComponent,
+    NavBarTabsComponent,
   ],
   imports: [
     BrowserModule,

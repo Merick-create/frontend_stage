@@ -1,0 +1,22 @@
+<link href="./nav-bar.component.css">
+<div *ngIf="LoginSrv.isAuthenticated$|async; else notLoggedIn">
+    <div class="d-flex justify-content-end align-items-center p-3">
+        <span class="pe-3">{{ firstName$ | async }} {{ lastName$ | async }}</span>
+        <div ngbDropdown class="d-inline-block">
+			<button type="button" class="btn btn-outline-dark" id="dropdownBasic1" ngbDropdownToggle>
+				<img [src]="img$ | async" class="img-fluid rounded-circle custom-img" alt="Avatar">
+			</button>
+			<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+				<button ngbDropdownItem (click)="logout()">logOut</button>
+				
+			</div>
+		</div>
+    </div>
+</div>
+  
+<ng-template #notLoggedIn>
+    <div class="d-flex justify-content-end p-3">
+      <button class="btn btn-primary" (click)="login()">Log In</button>
+    </div>
+</ng-template>
+  

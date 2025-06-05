@@ -1,0 +1,16 @@
+<nav class="navbar navbar-light bg-white border-bottom">
+  <div class="container justify-content-center">
+    <ul class="nav">
+      <li class="nav-item" *ngFor="let item of navItems">
+        <a 
+          class="nav-link custom-link" 
+          [routerLink]="item.route" 
+          routerLinkActive="active" 
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          {{ item.label }}
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
