@@ -1,62 +1,72 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Dettaglio Prodotto</title>
-  <link rel="stylesheet" href="product-detail.component.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
-</head>
 <body>
-  <div class="product-container" *ngIf="product">
+  <div class="main-wrapper">
 
-    <!-- Riquadro dell'immagine del prodotto -->
-    <div class="image-box">
-      <img [src]="product.img" alt="{{ product.name }}" />
-    </div>
+    <!-- Dettaglio Prodotto -->
+    <div class="product-container" *ngIf="product">
 
-    <!-- Riquadro dei dettagli del prodotto -->
-    <div class="details-box">
-      <h1 class="product-title">{{ product.name }}</h1>
+      <!-- Riquadro Immagine -->
+      <div class="image-box">
+        <img [src]="product.img" alt="{{ product.name }}" />
+      </div>
 
-      <div class="product-meta">
-        <div class="reviews">
-          <span 
-            *ngFor="let star of [1,2,3,4,5]" 
-            (click)="submitStarReview(star)" 
-            [class.active]="star <= selectedRating"
-            class="star"
-          >
-            &#9733;
-          </span>
-          <span>({{ selectedRating }} {{ selectedRating === 1 ? 'Review' : 'Reviews' }})</span>
+      <!-- Riquadro Dettagli -->
+      <div class="details-box">
+        <h1 class="product-title">{{ product.name }}</h1>
+
+        <div class="product-meta">
+          <div class="reviews">
+            <span 
+              *ngFor="let star of [1,2,3,4,5]" 
+              (click)="submitStarReview(star)" 
+              [class.active]="star <= selectedRating"
+              class="star"
+            >
+              &#9733;
+            </span>
+            <span>({{ selectedRating }} {{ selectedRating === 1 ? 'Review' : 'Reviews' }})</span>
+          </div>
+        </div>
+
+        <div class="price-section">
+          <span class="current-price">${{ product.price }}</span>
+        </div>
+
+        <p class="description">{{ product.description }}</p>
+
+        <div class="actions">
+          <div class="quantity-selector">
+            <button (click)="decreaseQty()">-</button>
+            <span>{{ quantity }}</span>
+            <button (click)="increaseQty()">+</button>
+          </div>
+          <button class="add-to-cart" (click)="addToCart()">ADD TO CART</button>
+          <button class="icon-button"><i class="far fa-heart"></i></button>
+          <button class="icon-button"><i class="fas fa-exchange-alt"></i></button>
+        </div>
+
+        <button class="buy-now" (click)="buyNow()">Buy Now</button>
+
+        <div class="category-tags">
+          <p id="categoria">Categoria: <a href="#">{{ categoryName }}</a></p>
         </div>
       </div>
-
-      <div class="price-section">
-        <span class="current-price">${{ product.price }}</span>
-      </div>
-
-      <p class="description">{{ product.description }}</p>
-
-      <div class="actions">
-        <div class="quantity-selector">
-          <button (click)="decreaseQty()">-</button>
-          <span>{{ quantity }}</span>
-          <button (click)="increaseQty()">+</button>
-        </div>
-        <button class="add-to-cart" (click)="addToCart()">ADD TO CART</button>
-        <button class="icon-button"><i class="far fa-heart"></i></button>
-        <button class="icon-button"><i class="fas fa-exchange-alt"></i></button>
-      </div>
-
-      <button class="buy-now" (click)="buyNow()">Buy Now</button>
-
-      <div class="category-tags">
-        <p id="categoria">Categoria: <a href="#">{{ categoryName }}</a></p>
-      </div>
     </div>
+    <main class="product-section">
+  <h1 class="section-title">Prodotti Disponibili</h1>
 
+  <div class="product-grid">
+    <div
+      class="product-card"
+      *ngFor="let prod of suggestedProducts"
+      [routerLink]="['/details', prod.id]"
+      style="cursor: pointer;"
+    >
+      <img [src]="prod.img" alt="{{ prod.name }}" />
+      <h2>{{ prod.name }}</h2>
+      <p>{{ prod.description }}</p>
+      <strong>{{ prod.price | currency: 'EUR' }}</strong>
+    </div>
+        </div>
+    </main>
   </div>
 </body>
-</html>

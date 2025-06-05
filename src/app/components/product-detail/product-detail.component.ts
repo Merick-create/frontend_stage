@@ -28,6 +28,22 @@ export class ProductDetailComponent implements OnInit {
     private reviewsService:ReviewsService
   ) {}
 
+
+  fetchSuggestedProductsByCategory() {
+  if (!this.product) return;
+
+  const categoryId = this.product.id_categoria;
+
+  this.productService.getByCategory(categoryId).subscribe({
+    next: (data) => {
+      this.suggestedProducts = data.filter(p => p.id !== this.product!.id);
+    },
+    error: (err) => {
+      console.error('Errore nel caricamento dei prodotti correlati', err);
+    }
+  });
+}
+
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
@@ -35,7 +51,10 @@ export class ProductDetailComponent implements OnInit {
     }
     this.authService.isAuthenticated$.subscribe(status => {
     this.isLoggedIn = status;
+
+    this.fetchSuggestedProductsByCategory();
   });
+
   }
 
   loadProduct(id: string) {
@@ -87,6 +106,6 @@ export class ProductDetailComponent implements OnInit {
 }
 
 buyNow(){
-  
+
 }
 }

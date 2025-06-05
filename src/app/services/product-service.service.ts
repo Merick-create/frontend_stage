@@ -32,6 +32,6 @@ export class ProductServiceService {
   return this.http.get<any[]>(`/api/products/search`, { params: query });
 }
 getByCategory(categoryId: string): Observable<Product[]> {
-  return this.http.get<Product[]>(`http://localhost:3000/products/${categoryId}`);
+  return this.http.get<Product[]>(`${this.apiUrl}/products/${categoryId}`);
 }
 }
