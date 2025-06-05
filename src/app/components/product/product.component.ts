@@ -22,6 +22,9 @@ export class ProductComponent implements OnInit {
   searchTerm: string = '';
   isAdmin = true;
 
+  
+  showSideCart = false;
+
   // Nuove proprietà per dettaglio prodotto
   product: Product | null = null;  // prodotto selezionato per dettaglio
   quantity: number = 1;            // quantità selezionata nel dettaglio
@@ -108,4 +111,10 @@ export class ProductComponent implements OnInit {
   backToList() {
     this.product = null;
   }
+
+
+  toggleSideCart() {
+    this.showSideCart = !this.showSideCart;
+  }
+
 }

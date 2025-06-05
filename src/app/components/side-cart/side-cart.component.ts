@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 interface Product {
@@ -16,15 +16,17 @@ interface CartItem {
 }
 
 @Component({
-  selector: 'app-cart',
+  selector: 'app-side-cart',
   standalone:false,
-  templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.css'],
+  templateUrl: './side-cart.component.html',
+  styleUrls: ['./side-cart.component.css']
 })
-export class CartComponent implements OnInit {
+export class SideCartComponent implements OnInit {
   cartItems: CartItem[] = [];
   loading = true;
   errorMessage: string | null = null;
+
+  @Output() close = new EventEmitter<void>();
 
   constructor(private http: HttpClient) {}
 
@@ -118,5 +120,4 @@ export class CartComponent implements OnInit {
   dismissError() {
     this.errorMessage = null;
   }
-
 }
