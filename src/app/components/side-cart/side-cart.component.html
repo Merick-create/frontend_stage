@@ -1,0 +1,68 @@
+<!-- MODAL ERRORE Bootstrap -->
+<div class="modal fade"
+     tabindex="-1"
+     [ngClass]="{'show d-block': errorMessage}"
+     [style.backgroundColor]="'rgba(0,0,0,0.5)'"
+     aria-modal="true"
+     role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title">Errore</h5>
+        <button type="button"
+                class="btn-close btn-close-white"
+                aria-label="Close"
+                (click)="dismissError()"></button>
+      </div>
+      <div class="modal-body">
+        <p>{{ errorMessage }}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button"
+                class="btn btn-danger"
+                (click)="dismissError()">Chiudi</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- OVERLAY cliccabile per chiudere -->
+<div class="side-cart-overlay" (click)="close.emit()"></div>
+
+<!-- SIDE CART -->
+<div class="side-cart">
+  <div class="header">
+    <h2>Carrello</h2>
+    <button class="close-btn" (click)="close.emit()">✖</button>
+  </div>
+
+  <div *ngIf="loading" class="loading">Caricamento...</div>
+
+  <div *ngIf="!loading && cartItems.length === 0" class="empty-cart">
+    Il carrello è vuoto.
+  </div>
+
+  <div *ngIf="!loading && cartItems.length > 0">
+    <div *ngFor="let item of cartItems" class="cart-item">
+      <img class="product-img" [src]="item.product.img" alt="{{ item.product.name }}" />
+
+      <div class="product-info">
+        <h4>{{ item.product.name }}</h4>
+        <p>{{ item.product.description }}</p>
+        <p>Prezzo: €{{ item.product.price }}</p>
+
+        <div class="quantity-controls">
+          <button class="btn btn-outline-secondary btn-sm" (click)="decreaseQuantity(item)">−</button>
+          <span>{{ item.quantity }}</span>
+          <button class="btn btn-outline-secondary btn-sm" (click)="increaseQuantity(item)">+</button>
+        </div>
+
+        <p>Totale: €{{ getTotalPerItem(item) }}</p>
+      </div>
+    </div>
+
+    <div class="cart-total">
+      <strong>Totale carrello: €{{ getCartTotal() }}</strong>
+    </div>
+  </div>
+</div>
