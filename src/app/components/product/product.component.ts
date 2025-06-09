@@ -27,8 +27,8 @@ export class ProductComponent implements OnInit {
     this.showModal = false;
   }
   showSideCart = false;
-  product: Product | null = null;  // prodotto selezionato per dettaglio
-  quantity: number = 1;            // quantità selezionata nel dettaglio
+  product: Product | null = null;
+  quantity: number = 1;          
 
   constructor(private productService: ProductServiceService) {}
 

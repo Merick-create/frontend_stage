@@ -1,0 +1,49 @@
+<section class="shop-banner">
+  <img src="assets/images/shop.png" alt="Banner Left" />
+  <h1>Shop</h1>
+  <img src="assets/images/shop-hero-right.png" alt="Banner Right" />
+</section>
+
+<section class="filter-bar">
+  <button class="filter-btn">🧪 Filter</button>
+  <span>Showing 01 - 09 of 30 Results</span>
+  
+  <div class="view-options">
+    <select [(ngModel)]="sortBy">
+      <option value="price">Price</option>
+      <option value="name">Name</option>
+    </select>
+    <select [(ngModel)]="itemsPerPage">
+      <option value="9">9</option>
+      <option value="18">18</option>
+    </select>
+  </div>
+</section>
+
+<section class="selected-filters">
+  <span class="filter-tag">Wireless Headphones ❌</span>
+  <span class="filter-tag">Min $30 - Max $300 ❌</span>
+  <a href="#">Clear All</a>
+</section>
+
+<section class="product-list">
+  <div class="product-item" *ngFor="let product of products">
+    <img [src]="product.img" alt="{{ product.name }}" class="product-img" />
+
+    <div class="product-details">
+      <h2>{{ product.name }}</h2>
+      <p>{{ product.description }}</p>
+
+      <!--<div class="stars">
+        ★★★★☆ ({{ product }})
+      </div>-->
+
+    </div>
+
+    <div class="product-price">
+      <p class="current-price">{{ product.price | currency: 'USD' }}</p>
+      <button class="add-btn">Add To Cart</button>
+    </div>
+  </div>
+</section>
+

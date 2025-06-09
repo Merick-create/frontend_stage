@@ -1,28 +1,18 @@
- <app-nav-bar-tabs></app-nav-bar-tabs>
+<app-nav-bar-tabs></app-nav-bar-tabs>
 
 <body>
   <div class="main-wrapper">
-
-    <!-- Dettaglio Prodotto -->
     <div class="product-container" *ngIf="product">
-
-      <!-- Riquadro Immagine -->
       <div class="image-box">
         <img [src]="product.img" alt="{{ product.name }}" />
       </div>
-
-      <!-- Riquadro Dettagli -->
       <div class="details-box">
         <h1 class="product-title">{{ product.name }}</h1>
 
         <div class="product-meta">
           <div class="reviews">
-            <span 
-              *ngFor="let star of [1,2,3,4,5]" 
-              (click)="submitStarReview(star)" 
-              [class.active]="star <= selectedRating"
-              class="star"
-            >
+            <span *ngFor="let star of [1,2,3,4,5]" (click)="submitStarReview(star)"
+              [class.active]="star <= selectedRating" class="star">
               &#9733;
             </span>
             <span>({{ selectedRating }} {{ selectedRating === 1 ? 'Review' : 'Reviews' }})</span>
@@ -51,33 +41,28 @@
         <div class="category-tags">
           <p id="categoria">Categoria: <a href="#">{{ categoryName }}</a></p>
         </div>
-      </div>    
+      </div>
     </div>
     <main class="product-section">
-  <h1 class="section-title">Prodotti Consigliati</h1>
+      <h1 class="section-title">Prodotti Consigliati</h1>
 
-  <div class="product-grid">
-    <div
-  class="product-card"
-  *ngFor="let prod of suggestedProducts"
-  style="cursor: pointer;"
->
-  <img [src]="prod.img" alt="{{ prod.name }}" />
-  
-  <h2>{{ prod.name }}</h2>
+      <div class="product-grid">
+        <div class="product-card" *ngFor="let prod of suggestedProducts" style="cursor: pointer;">
+          <img [src]="prod.img" alt="{{ prod.name }}" />
 
-  <div class="suggested-stars">
-    <span *ngFor="let star of [1,2,3,4,5]" class="star">&#9733;</span>
-  </div>
-  <div class="price">
-    {{ prod.price | currency: 'EUR' }}
-  </div>
-  <button class="mini-add-cart">
-    Aggiungi al Carrello
-  </button>
-</div>
+          <h2>{{ prod.name }}</h2>
 
+          <div class="suggested-stars">
+            <span *ngFor="let star of [1,2,3,4,5]" class="star">&#9733;</span>
+          </div>
+          <div class="price">
+            {{ prod.price | currency: 'EUR' }}
+          </div>  
+          <button class="mini-add-cart">
+            Aggiungi al Carrello
+          </button>
         </div>
+      </div>
     </main>
   </div>
 </body>
