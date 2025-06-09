@@ -1,11 +1,12 @@
 import { Component,OnInit } from '@angular/core';
 import { ProductServiceService } from '../../services/product-service.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from '../../entities/Product';
 import { CategoryService } from '../../services/category.service';
 import { AuthService } from '../../services/auth.service';
 import { ReviewsService } from '../../services/reviews.service';
 import { CartService } from '../../services/cart.service';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'app-product-detail',
   standalone: false,
@@ -26,7 +27,9 @@ export class ProductDetailComponent implements OnInit {
     private categoryService: CategoryService,
     private authService:AuthService,
     private reviewsService:ReviewsService,
-    private cartService:CartService
+    private cartService:CartService,
+    private http: HttpClient,
+    private router: Router
   ) {}
 
 
@@ -87,24 +90,41 @@ export class ProductDetailComponent implements OnInit {
     if (this.quantity > 1) this.quantity--;
   }
   submitStarReview(star: number) {
-  this.selectedRating = star;
+    this.selectedRating = star;
 
-  if (!this.product?.id) return;
+    if (!this.product?.id) return;
 
-  this.reviewsService.addReview(this.product.id, star).subscribe({
-    next: () => {
-      console.log("recensione fatta");
-    },
-    error: (err) => {
-      console.error(err);
-      alert('Errore durante l\'invio della recensione');
+    this.reviewsService.addReview(this.product.id, star).subscribe({
+      next: () => {
+        console.log("recensione fatta");
+      },
+      error: (err) => {
+        console.error(err);
+        alert('Errore durante l\'invio della recensione');
+      }
+    });
+  }
+
+  buyNow() {
+    if (!this.product?.id) {
+      alert('Prodotto non disponibile');
+      return;
     }
-  });
-}
 
-buyNow(){
+    this.http.post('/api/checkout/buynow', {
+      productId: this.product.id,
+      quantity: this.quantity
+    }).subscribe({
+      next: () => {
+        this.router.navigate(['/checkout']);
+      },
+      error: (err) => {
+        console.error('Errore nel buy now:', err);
+        alert('Errore durante il checkout immediato');
+      }
+    });
+  }
 
-}
 
   addToCart() {
 
