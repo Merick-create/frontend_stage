@@ -11,12 +11,14 @@ import { AuthService } from '../../services/auth.service';
 export class CheckoutComponent implements OnInit {
   products: any[] = [];
   checkout: any = null;
+  orderConfirmed = false;
 
   constructor(private http: HttpClient, public auth: AuthService) {}
 
   ngOnInit(): void {
     this.loadCheckout();
-    }
+  }
+
   loadCheckout() {
     this.http.get<any>('/api/checkout').subscribe({
       next: (checkoutData) => {
@@ -31,7 +33,7 @@ export class CheckoutComponent implements OnInit {
                   product: productData,
                   quantity: item.quantity,
                   price: item.price,
-                  totalPrice:item.totalPrice
+                  totalPrice: item.totalPrice
                 });
               },
               error: (err) => console.error(`Error fetching product with ID ${productId}:`, err)
@@ -43,6 +45,36 @@ export class CheckoutComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading checkout:', error);
+      }
+    });
+  }
+
+
+  
+  destroyCheckout() {
+    // Prima conferma l'ordine
+    this.http.post<any>('/api/checkout/confirm', {}).subscribe({
+      next: (res) => {
+        console.log('Ordine confermato:', res);
+
+        // Poi elimina il checkout
+        this.http.delete<any>('/api/checkout').subscribe({
+          next: (deleteRes) => {
+            console.log('Checkout eliminato:', deleteRes);
+            this.orderConfirmed = true;
+            this.products = [];
+            this.checkout = null;
+            alert('Ordine confermato e spedito!');
+          },
+          error: (err) => {
+            console.error('Errore durante l\'eliminazione del checkout:', err);
+            alert('Errore nel completare l\'ordine.');
+          }
+        });
+      },
+      error: (err) => {
+        console.error('Errore durante la conferma dell\'ordine:', err);
+        alert('Impossibile confermare l\'ordine. Riprova.');
       }
     });
   }
