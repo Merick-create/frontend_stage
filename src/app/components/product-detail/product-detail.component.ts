@@ -5,7 +5,7 @@ import { Product } from '../../entities/Product';
 import { CategoryService } from '../../services/category.service';
 import { AuthService } from '../../services/auth.service';
 import { ReviewsService } from '../../services/reviews.service';
-
+import { CartService } from '../../services/cart.service';
 @Component({
   selector: 'app-product-detail',
   standalone: false,
@@ -25,7 +25,8 @@ export class ProductDetailComponent implements OnInit {
     private productService: ProductServiceService,
     private categoryService: CategoryService,
     private authService:AuthService,
-    private reviewsService:ReviewsService
+    private reviewsService:ReviewsService,
+    private cartService:CartService
   ) {}
 
 
@@ -85,10 +86,6 @@ export class ProductDetailComponent implements OnInit {
   decreaseQty() {
     if (this.quantity > 1) this.quantity--;
   }
-
-  addToCart() {
-    console.log('Aggiunto al carrello:', this.product, 'Quantità:', this.quantity);
-  }
   submitStarReview(star: number) {
   this.selectedRating = star;
 
@@ -108,4 +105,23 @@ export class ProductDetailComponent implements OnInit {
 buyNow(){
 
 }
+
+  addToCart() {
+
+    if (!this.product?.id) {
+      alert('Prodotto non disponibile');
+      return;
+    }
+
+    this.cartService.addToCart(this.product.id!, this.quantity).subscribe({
+      next: (res) => {
+        console.log('Prodotto aggiunto al carrello:', res);
+        alert('Prodotto aggiunto con successo!');
+      },
+      error: (err) => {
+        console.error('Errore:', err);
+        alert(err.error?.error || 'Errore durante l\'aggiunta al carrello');
+      }
+    });
+  }
 }
