@@ -251,3 +251,38 @@ body {
     font-size: 1em;
     color: #28a745;
 }
+
+.product-card .price {
+  font-weight: bold;
+  color: #020e05;
+  margin-bottom: 10px;
+  font-size: 1em;
+}
+
+/* 🛒 Bottone carrello */
+.mini-add-cart {
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 5px;
+  font-size: 0.9em;
+  cursor: pointer;
+   transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.mini-add-cart:hover {
+  background-color: #882181;
+}
+
+.suggested-stars {
+  display: flex;
+  justify-content: center;
+  margin: 4px 0;
+}
+
+.suggested-stars .star {
+  color: #ffc107;
+  font-size: 1em;
+  margin: 0 2px;
+}
