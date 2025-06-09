@@ -1,3 +1,5 @@
+ <app-nav-bar-tabs></app-nav-bar-tabs>
+
 <body>
   <div class="main-wrapper">
 
@@ -36,7 +38,7 @@
         <div class="actions">
           <div class="quantity-selector">
             <button (click)="decreaseQty()">-</button>
-            <span>{{ quantity }}</span>
+            <span style="color:black">{{ quantity }}</span>
             <button (click)="increaseQty()">+</button>
           </div>
           <button class="add-to-cart" (click)="addToCart()">ADD TO CART</button>

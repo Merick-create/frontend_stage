@@ -38,7 +38,8 @@ export class ProductComponent implements OnInit {
   fetchProducts() {
     this.productService.getAll().subscribe({
       next: data => {
-        this.products = data;
+        // Filtra prodotti con quantità > 0
+        this.products = data.filter(p => p.quantity > 0);
       },
       error: err => {
         this.errorMessage = 'Errore nel caricamento prodotti';
@@ -47,11 +48,13 @@ export class ProductComponent implements OnInit {
     });
   }
 
+
   searchProducts() {
     if (this.searchTerm.trim()) {
       this.productService.getByName(this.searchTerm).subscribe({
         next: data => {
-          this.products = data;
+          // Filtra anche i risultati della ricerca
+          this.products = data.filter(p => p.quantity > 0);
         },
         error: err => {
           this.errorMessage = 'Errore nella ricerca prodotti';
@@ -81,35 +84,6 @@ export class ProductComponent implements OnInit {
         console.error(err);
       }
     });
-  }
-
-  // Nuovi metodi per dettaglio prodotto
-
-  selectProduct(product: Product) {
-    this.product = product;
-    this.quantity = 1;
-  }
-
-  increaseQty() {
-    this.quantity++;
-  }
-
-  decreaseQty() {
-    if (this.quantity > 1) {
-      this.quantity--;
-    }
-  }
-
-  addToCart() {
-    if (!this.product) return;
-    // Qui metti la logica per aggiungere al carrello, ad esempio:
-    console.log(`Aggiunto al carrello: ${this.product.name} x${this.quantity}`);
-    // Eventualmente mostra messaggi, ecc.
-  }
-
-  // Metodo per tornare alla lista prodotti (nascondendo dettaglio)
-  backToList() {
-    this.product = null;
   }
 
 
