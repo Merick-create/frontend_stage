@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 interface Product {
   _id: string;
@@ -22,6 +23,7 @@ interface CartItem {
   styleUrls: ['./cart.component.css'],
 })
 export class CartComponent implements OnInit {
+    protected router=inject(Router)
   cartItems: CartItem[] = [];
   loading = true;
   errorMessage: string | null = null;
@@ -117,6 +119,19 @@ export class CartComponent implements OnInit {
   }
   dismissError() {
     this.errorMessage = null;
+  }
+
+
+  goToCheckout() {
+    this.http.post('/api/checkout/', {}).subscribe({
+      next: (res) => {
+        console.log('Checkout creato:', res);
+        this.router.navigate(['/checkout']);
+      },
+      error: (err) => {
+        console.error('Errore nel checkout:', err);
+      }
+    });
   }
 
 }
