@@ -21,11 +21,12 @@ export class ProductComponent implements OnInit {
   };
   searchTerm: string = '';
   isAdmin = true;
+  showModal = false;
 
-  
+  closeModal(event: MouseEvent) {
+    this.showModal = false;
+  }
   showSideCart = false;
-
-  // Nuove proprietà per dettaglio prodotto
   product: Product | null = null;  // prodotto selezionato per dettaglio
   quantity: number = 1;            // quantità selezionata nel dettaglio
 

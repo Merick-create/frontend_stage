@@ -1,30 +1,53 @@
-
 <header class="site-header">
   <div class="logo">TechStore</div>
 
- 
   <div class="search-bar">
     <div class="shoppingCart" (click)="toggleSideCart()">
       <img src="assets/images/pippo.png" alt="Carrello" width="32" height="32" />
     </div>
 
-    <!-- Inserisci il componente del carrello laterale -->
+    <!-- Carrello laterale -->
     <app-side-cart *ngIf="showSideCart" class="side-cart-panel" (close)="toggleSideCart()"></app-side-cart>
 
-    <input
-      type="text"
-      [(ngModel)]="searchTerm"
-      placeholder="Cerca per nome prodotto"
-    />
+    <input type="text" [(ngModel)]="searchTerm" placeholder="Cerca per nome prodotto" />
     <button (click)="searchProducts()">🔍 Cerca</button>
-    
-    <app-nav-bar></app-nav-bar>
 
+    <app-nav-bar></app-nav-bar>
+  </div>
+</header>
+
+<app-nav-bar-tabs></app-nav-bar-tabs>
+<section class="promotions-section">
+  <div class="promo-main">
+    <div class="promo-text">
+      <p class="new-arrival">NEW ARRIVALS</p>
+      <h2>4K LCD <span class="highlight">Quantum</span> Vision LCD</h2>
+      <p>Limited Time: Online Only!</p>
+      <button>Shop Now</button>
+    </div>
+    <img src="assets/images/pluto.png" alt="Promo Monitor" />
   </div>
 
- 
-</header>
- <app-nav-bar-tabs></app-nav-bar-tabs>
+  <div class="promo-side">
+    <div class="promo-box">
+      <div>
+        <p>Mobile</p>
+        <strong><span class="highlight">Nexus</span> Mobile Pro 256GB</strong>
+        <p>Limited Time: Online Only!</p>
+      </div>
+      <img src="assets/images/iphone.png" alt="Phone" />
+    </div>
+    <div class="promo-box">
+      <div>
+        <p>iPadMini</p>
+        <strong><span class="highlight">10 Inch</span> iPad Mini Pro</strong>
+        <p>Limited Time: Online Only!</p>
+      </div>
+      <img src="assets/images/ipad.png" alt="Tablet" />
+    </div>
+  </div>
+</section>
+
 <main class="product-section">
   <h1 class="section-title">Prodotti Disponibili</h1>
 
@@ -42,38 +65,25 @@
     </div>
   </div>
 </main>
-<section *ngIf="isAdmin" class="admin-form">
-  <h3>Aggiungi Prodotto</h3>
+<button 
+  *ngIf="isAdmin"
+  class="floating-add-button"
+  (click)="showModal = true"
+>
+  +
+</button>
+<div *ngIf="showModal" class="modal-backdrop" (click)="closeModal($event)">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <span class="close-btn" (click)="showModal = false">&times;</span>
+    <h3>Aggiungi Prodotto</h3>
 
-  <input
-    type="text"
-    placeholder="Nome"
-    [(ngModel)]="newProduct.name"
-  />
-  <input
-    type="text"
-    placeholder="Categoria"
-    [(ngModel)]="newProduct.id_categoria"
-  />
-  <input
-    type="number"
-    placeholder="Prezzo"
-    [(ngModel)]="newProduct.price"
-  />
-  <input
-    type="text"
-    placeholder="Descrizione"
-    [(ngModel)]="newProduct.description"
-  />
-  <input
-    type="number"
-    placeholder="Quantità"
-    [(ngModel)]="newProduct.quantity"
-  />
-  <input
-    type="text"
-    placeholder="URL Immagine"
-    [(ngModel)]="newProduct.img"
-  />
-  <button (click)="addProduct()">Aggiungi</button>
-</section>
+    <input type="text" placeholder="Nome" [(ngModel)]="newProduct.name" />
+    <input type="text" placeholder="Categoria" [(ngModel)]="newProduct.id_categoria" />
+    <input type="number" placeholder="Prezzo" [(ngModel)]="newProduct.price" />
+    <input type="text" placeholder="Descrizione" [(ngModel)]="newProduct.description" />
+    <input type="number" placeholder="Quantità" [(ngModel)]="newProduct.quantity" />
+    <input type="text" placeholder="URL Immagine" [(ngModel)]="newProduct.img" />
+
+    <button (click)="addProduct()">Aggiungi</button>
+  </div>
+</div>
