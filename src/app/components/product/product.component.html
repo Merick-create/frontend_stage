@@ -51,16 +51,13 @@
 <section class="featured-products">
   <h2 class="section-title">Feature Products</h2>
   <div class="featured-container">
-    
-    <!-- Special Offer Box -->
+
     <div class="special-offer-card">
       <p class="offer-label">Special Offer</p>
       <img src="assets/images/controller-rem.png" alt="Joystick" />
       <h3>Aero Control Pro Joysticks</h3>
       <p class="price">$120.00</p>
     </div>
-
-    <!-- Product Cards -->
     <div class="product-card" *ngFor="let item of products">
       <img [src]="item.img" [alt]="item.name" />
       <h3>{{ item.name }}</h3>
