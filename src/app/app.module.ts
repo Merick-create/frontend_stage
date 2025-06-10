@@ -15,6 +15,7 @@ import { CartComponent } from './pages/cart/cart.component';
 import { SideCartComponent } from './components/side-cart/side-cart.component';
 import { NavBarComponent } from './components/nav-bar-login-logout/nav-bar.component';
 import { NavBarTabsComponent } from './components/nav-bar-tabs/nav-bar-tabs.component';
+import { ShopComponent } from './components/shop/shop.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { NavBarTabsComponent } from './components/nav-bar-tabs/nav-bar-tabs.comp
     SideCartComponent,
     NavBarComponent,
     NavBarTabsComponent,
+    ShopComponent,
   ],
   imports: [
     BrowserModule,

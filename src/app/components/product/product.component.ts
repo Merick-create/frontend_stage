@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Product, AddProdcutDTO,OptionalProductDTO} from '../../entities/Product';
 import { ProductServiceService } from '../../services/product-service.service';
-
+import { CartService } from '../../services/cart.service';
 @Component({
   selector: 'app-product',
   standalone: false,
@@ -27,10 +27,12 @@ export class ProductComponent implements OnInit {
     this.showModal = false;
   }
   showSideCart = false;
-  product: Product | null = null;  // prodotto selezionato per dettaglio
-  quantity: number = 1;            // quantità selezionata nel dettaglio
+  product: Product | null = null;
+  quantity: number = 1;          
 
-  constructor(private productService: ProductServiceService) {}
+  constructor(private productService: ProductServiceService,
+    private cartService:CartService
+  ) {}
 
   ngOnInit() {
     this.fetchProducts();
@@ -91,5 +93,23 @@ export class ProductComponent implements OnInit {
   toggleSideCart() {
     this.showSideCart = !this.showSideCart;
   }
+
+  addToCart(product: Product, quantity: number = 1): void {
+  if (!product.id) {
+    alert('Prodotto non disponibile');
+    return;
+  }
+
+  this.cartService.addToCart(product.id, quantity).subscribe({
+    next: res => {
+      console.log('Prodotto aggiunto al carrello:', res);
+      alert('Prodotto aggiunto con successo!');
+    },
+    error: err => {
+      console.error('Errore:', err);
+      alert(err.error?.error || 'Errore durante l\'aggiunta al carrello');
+    }
+  });
+}
 
 }
