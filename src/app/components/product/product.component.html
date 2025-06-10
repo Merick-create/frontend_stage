@@ -48,6 +48,31 @@
   </div>
 </section>
 
+<section class="featured-products">
+  <h2 class="section-title">Feature Products</h2>
+  <div class="featured-container">
+    
+    <!-- Special Offer Box -->
+    <div class="special-offer-card">
+      <p class="offer-label">Special Offer</p>
+      <img src="assets/images/controller-rem.png" alt="Joystick" />
+      <h3>Aero Control Pro Joysticks</h3>
+      <p class="price">$120.00</p>
+    </div>
+
+    <!-- Product Cards -->
+    <div class="product-card" *ngFor="let item of products">
+      <img [src]="item.img" [alt]="item.name" />
+      <h3>{{ item.name }}</h3>
+      <p>{{ item.description }}</p>
+      <p class="old-price" *ngIf="item.price">€{{ item.price }}</p>
+      <p class="price">€{{ item.price }}</p>
+      <button class="add-btn" (click)="addToCart(item)">Add To Cart</button>
+    </div>
+
+  </div>
+</section>
+
 <main class="product-section">
   <h1 class="section-title">Prodotti Disponibili</h1>
 

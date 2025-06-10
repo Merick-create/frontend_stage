@@ -308,3 +308,75 @@
 .promo-box .highlight {
   color: #ffeb3b;
 }
+
+.featured-products {
+  padding: 2rem;
+  background: #f7f7f7;
+}
+
+.featured-container {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding: 1rem 0;
+}
+
+.special-offer-card {
+  background: radial-gradient(circle, #00ff88 0%, #002b18 100%);
+  color: white;
+  border-radius: 16px;
+  padding: 1rem;
+  text-align: center;
+  min-width: 250px;
+  flex-shrink: 0;
+}
+
+.special-offer-card img {
+  width: 100%;
+  max-width: 200px;
+  margin: auto;
+}
+
+.offer-label {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.product-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  min-width: 200px;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.product-card img {
+  width: 100%;
+  max-width: 150px;
+  margin-bottom: 0.5rem;
+}
+
+.old-price {
+  text-decoration: line-through;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #1e8f4d;
+}
+
+.add-btn {
+  margin-top: 0.5rem;
+  background: #1e8f4d;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
