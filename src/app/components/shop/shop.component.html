@@ -1,13 +1,13 @@
 <section class="shop-banner">
-  <img src="assets/images/shop.png" alt="Banner Left" />
+  <img src="" alt="Banner Left" />
   <h1>Shop</h1>
   <img src="assets/images/shop-hero-right.png" alt="Banner Right" />
 </section>
 
 <section class="filter-bar">
-  <button class="filter-btn">🧪 Filter</button>
+  <button class="filter-btn" (click)="toggleFilters()">🧪 Filter</button>
   <span>Showing 01 - 09 of 30 Results</span>
-  
+
   <div class="view-options">
     <select [(ngModel)]="sortBy">
       <option value="price">Price</option>
@@ -19,13 +19,37 @@
     </select>
   </div>
 </section>
+<aside class="filter-sidebar" [class.open]="showFilters">
+  <div class="filter-header">
+    <h3>Filters</h3>
+    <button (click)="toggleFilters()">✖</button>
+  </div>
 
+  <div class="filter-group">
+    <h4 (click)="toggleCategory('categories')">Product Categories</h4>
+    <ul *ngIf="expanded.categories">
+      <li><input type="checkbox" /> Cables & Connectors</li>
+      <li><input type="checkbox" /> Cases & Covers</li>
+      <li><input type="checkbox" /> Screen Protectors & Guards</li>
+      <li><input type="checkbox" /> Chargers & Adapters</li>
+      <li><input type="checkbox" /> Headphones & Earphones</li>
+    </ul>
+  </div>
+  <div class="filter-group">
+    <h4 (click)="toggleCategory('price')">Filter by Price</h4>
+    <div *ngIf="expanded.price">
+      <input type="number" placeholder="Min" [(ngModel)]="priceMin" />
+      <input type="number" placeholder="Max" [(ngModel)]="priceMax" />
+    </div>
+  </div>
+
+  <button (click)="applyFilters()">Apply Filters</button>
+</aside>
 <section class="selected-filters">
   <span class="filter-tag">Wireless Headphones ❌</span>
   <span class="filter-tag">Min $30 - Max $300 ❌</span>
   <a href="#">Clear All</a>
 </section>
-
 <section class="product-list">
   <div class="product-item" *ngFor="let product of products">
     <img [src]="product.img" alt="{{ product.name }}" class="product-img" />
@@ -33,17 +57,11 @@
     <div class="product-details">
       <h2>{{ product.name }}</h2>
       <p>{{ product.description }}</p>
-
-      <!--<div class="stars">
-        ★★★★☆ ({{ product }})
-      </div>-->
-
     </div>
 
     <div class="product-price">
       <p class="current-price">{{ product.price | currency: 'USD' }}</p>
-      <button class="add-btn">Add To Cart</button>
+      <button class="add-btn" (click)="addToCart(product)">Add To Cart</button>
     </div>
   </div>
 </section>
-

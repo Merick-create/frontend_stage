@@ -97,3 +97,52 @@
   border-radius: 5px;
   cursor: pointer;
 }
+
+
+.filter-sidebar {
+  position: fixed;
+  top: 0;
+  left: -300px;
+  width: 280px;
+  height: 100%;
+  background-color: #fff;
+  border-right: 1px solid #ddd;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  padding: 20px;
+  transition: left 0.3s ease;
+  z-index: 1000;
+}
+.filter-sidebar.open {
+  left: 0;
+}
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.filter-group {
+  margin-top: 20px;
+}
+.filter-group h4 {
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+.filter-group ul {
+  list-style: none;
+  padding-left: 0;
+}
+.filter-group li {
+  margin: 5px 0;
+}
+.filter-btn {
+  padding: 6px 12px;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.product-img {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
