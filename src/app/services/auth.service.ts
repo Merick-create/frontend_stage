@@ -84,4 +84,17 @@ export class AuthService {
     return this.http.post<any>('/api/register',newUser);
   }
 
+  updateUserPicture(newUrl: string) {
+  return this.http.patch<User>('/api/users/me', { picture: newUrl })
+    .pipe(
+      tap(user => this._currentUser$.next(user)), // aggiorna il ReplaySubject
+      catchError(err => {
+        console.error('Errore aggiornamento immagine:', err);
+        return of(null);
+      })
+    );
+}
+
+
+
 }

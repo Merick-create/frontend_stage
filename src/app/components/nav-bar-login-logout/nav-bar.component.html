@@ -3,7 +3,7 @@
     <div class="d-flex justify-content-end align-items-center p-3">
         <span class="pe-3">{{ firstName$ | async }} {{ lastName$ | async }}</span>
         <div ngbDropdown class="d-inline-block">
-			<button type="button" class="btn btn-outline-dark" id="dropdownBasic1" ngbDropdownToggle>
+			<button (click)="goToUser()" type="button" class="btn btn-outline-dark" id="dropdownBasic1" ngbDropdownToggle>
 				<img [src]="img$ | async" class="img-fluid rounded-circle custom-img" alt="Avatar">
 			</button>
 			<div ngbDropdownMenu aria-labelledby="dropdownBasic1">

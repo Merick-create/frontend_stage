@@ -1,0 +1,27 @@
+<div class="text-center">
+  <!-- Avatar -->
+  <img [src]="img$ | async" 
+       class="rounded-circle d-block mx-auto mb-2" 
+       alt="Avatar"
+       style="width: 150px; height: 150px; object-fit: cover;">
+
+  <!-- Nome e ruolo -->
+  <div class="fs-5">
+    <div>{{ firstName$ | async }} {{ lastName$ | async }}</div>
+    <div>ruolo: {{ role$ | async }}</div>
+  </div>
+
+  <!-- Input per nuova immagine -->
+  <input [(ngModel)]="newImageUrl" 
+         class="form-control mx-auto" 
+         style="width: 300px; margin-top: 20px;" 
+         type="text" 
+         placeholder="Inserisci la tua nuova immagine">
+
+  <!-- Bottone per inviare -->
+  <button (click)="changeImg()" 
+          class="btn btn-primary" 
+          style="margin-top:15px">
+    Salva modifiche
+  </button>
+</div>
