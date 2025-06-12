@@ -8,6 +8,7 @@ import { ProductDetailComponent } from './components/product-detail/product-deta
 import { CartComponent } from './pages/cart/cart.component';
 import { authGuard } from './utils/auth.guard';
 import { ShopComponent } from './components/shop/shop.component';
+import { UserComponent } from './pages/user/user.component';
 
 const routes: Routes = [
   {
@@ -37,6 +38,10 @@ const routes: Routes = [
   {
     path:"shop",
     component:ShopComponent
+  },
+  {
+    path:"user",
+    component:UserComponent
   }
 ];
 

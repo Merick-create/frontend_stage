@@ -16,6 +16,7 @@ import { SideCartComponent } from './components/side-cart/side-cart.component';
 import { NavBarComponent } from './components/nav-bar-login-logout/nav-bar.component';
 import { NavBarTabsComponent } from './components/nav-bar-tabs/nav-bar-tabs.component';
 import { ShopComponent } from './components/shop/shop.component';
+import { UserComponent } from './pages/user/user.component';
 
 @NgModule({
   declarations: [
@@ -23,15 +24,14 @@ import { ShopComponent } from './components/shop/shop.component';
     LoginComponent,
     RegisterComponent,
     CheckoutComponent,
-    RegisterComponent,
     ProductComponent,
     ProductDetailComponent,
-    ProductComponent,
     CartComponent,
     SideCartComponent,
     NavBarComponent,
     NavBarTabsComponent,
     ShopComponent,
+    UserComponent,
   ],
   imports: [
     BrowserModule,

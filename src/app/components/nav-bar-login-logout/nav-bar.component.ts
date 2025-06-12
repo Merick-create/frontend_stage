@@ -32,4 +32,8 @@ export class NavBarComponent {
   logout(){
     this.LoginSrv.logout()
   }
+
+  goToUser(){
+    this.router.navigate([`/user`])
+  }
 }
