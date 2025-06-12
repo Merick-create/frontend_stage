@@ -1,14 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-
-interface Product {
-  _id: string;
-  name: string;
-  price: number;
-  description: string;
-  img: string;
-}
+import { ProductServiceService } from '../../services/product-service.service';
+import { Product } from '../../entities/Product';
 
 interface CartItem {
   id: string;
@@ -23,12 +17,14 @@ interface CartItem {
   styleUrls: ['./cart.component.css'],
 })
 export class CartComponent implements OnInit {
-    protected router=inject(Router)
+  protected router=inject(Router)
   cartItems: CartItem[] = [];
   loading = true;
   errorMessage: string | null = null;
+  searchTerm: string = '';
+  products: Product[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private productService: ProductServiceService,) {}
 
   ngOnInit(): void {
     this.fetchCart();
@@ -134,4 +130,32 @@ export class CartComponent implements OnInit {
     });
   }
 
+  searchProducts() {
+    if (this.searchTerm.trim()) {
+      this.productService.getByName(this.searchTerm).subscribe({
+        next: data => {
+          // Filtra anche i risultati della ricerca
+          this.products = data.filter(p => p.quantity > 0);
+        },
+        error: err => {
+          this.errorMessage = 'Errore nella ricerca prodotti';
+          console.error(err);
+        }
+      });
+    } else {
+      this.fetchProducts();
+    }
+  }
+
+  fetchProducts() {
+    this.productService.getAll().subscribe({
+      next: data => {
+        this.products = data.filter(p => p.quantity > 0);
+      },
+      error: err => {
+        this.errorMessage = 'Errore nel caricamento prodotti';
+        console.error(err);
+      }
+    });
+  }
 }

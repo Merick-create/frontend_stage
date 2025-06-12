@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Product, AddProdcutDTO,OptionalProductDTO} from '../../entities/Product';
 import { ProductServiceService } from '../../services/product-service.service';
 import { CartService } from '../../services/cart.service';
 import { Category } from '../../entities/category';
 import { CategoryService } from '../../services/category.service';
+
 @Component({
   selector: 'app-product',
   standalone: false,
@@ -25,6 +26,8 @@ export class ProductComponent implements OnInit {
   isAdmin = true;
   showModal = false;
   categories:Category[]=[];
+  cartTotal = 0;
+  cartQuantity = 0;
 
   closeModal(event: MouseEvent) {
     this.showModal = false;
@@ -40,11 +43,13 @@ export class ProductComponent implements OnInit {
 
   ngOnInit() {
     this.fetchProducts();
-    this.categoryService.getAllCategories()
-    .subscribe({
-    next: (data: Category[]) => this.categories = data,
-    error: (err:any) => console.error('Errore categorie', err)
-  });
+    this.cartService.getCartTotal().subscribe(total => this.cartTotal = total);
+    this.cartService.getCartQuantity().subscribe(qty => this.cartQuantity = qty);
+    
+    this.categoryService.getAllCategories().subscribe({
+      next: (data: Category[]) => this.categories = data,
+      error: (err: any) => console.error('Errore categorie', err)
+    });
   }
 
   fetchProducts() {
@@ -103,21 +108,21 @@ export class ProductComponent implements OnInit {
   }
 
   addToCart(product: Product, quantity: number = 1): void {
-  if (!product.id) {
-    alert('Prodotto non disponibile');
-    return;
-  }
-
-  this.cartService.addToCart(product.id, quantity).subscribe({
-    next: res => {
-      console.log('Prodotto aggiunto al carrello:', res);
-      alert('Prodotto aggiunto con successo!');
-    },
-    error: err => {
-      console.error('Errore:', err);
-      alert(err.error?.error || 'Errore durante l\'aggiunta al carrello');
+    if (!product.id) {
+      alert('Prodotto non disponibile');
+      return;
     }
-  });
-}
+
+    this.cartService.addToCart(product.id, quantity).subscribe({
+      next: res => {
+        console.log('Prodotto aggiunto al carrello:', res);
+        alert('Prodotto aggiunto con successo!');
+      },
+      error: err => {
+        console.error('Errore:', err);
+        alert(err.error?.error || 'Errore durante l\'aggiunta al carrello');
+      }
+    });
+  }
 
 }
