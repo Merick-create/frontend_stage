@@ -6,19 +6,20 @@
 
 <section class="filter-bar">
   <button class="filter-btn" (click)="toggleFilters()">🧪 Filter</button>
-  <span>Showing 01 - 09 of 30 Results</span>
+  <span>Showing {{ filteredProducts.length }} Results</span>
 
   <div class="view-options">
-    <select [(ngModel)]="sortBy">
+    <select [(ngModel)]="sortBy" (change)="onSortChange()">
       <option value="price">Price</option>
       <option value="name">Name</option>
     </select>
-    <select [(ngModel)]="itemsPerPage">
+    <select [(ngModel)]="itemsPerPage" (change)="applyFilters()">
       <option value="9">9</option>
       <option value="18">18</option>
     </select>
   </div>
 </section>
+
 <aside class="filter-sidebar" [class.open]="showFilters">
   <div class="filter-header">
     <h3>Filters</h3>
@@ -26,38 +27,30 @@
   </div>
 
   <div class="filter-group">
-    <h4 (click)="toggleCategory('categories')">Product Categories</h4>
-    <ul *ngIf="expanded.categories">
-      <li><input type="checkbox" /> Cables & Connectors</li>
-      <li><input type="checkbox" /> Cases & Covers</li>
-      <li><input type="checkbox" /> Screen Protectors & Guards</li>
-      <li><input type="checkbox" /> Chargers & Adapters</li>
-      <li><input type="checkbox" /> Headphones & Earphones</li>
-    </ul>
+    <label for="categoryFilter">Product Category</label>
+    <select id="categoryFilter" [(ngModel)]="selectedCategoryId" (change)="onCategoryChange()">
+      <option value="">All Categories</option>
+      <option *ngFor="let category of categories" [value]="category._id">
+        {{ category.name }}
+      </option>
+    </select>
   </div>
-  <div class="filter-group">
-  <h4 (click)="toggleCategory('categories')">Product Categories</h4>
-  <ul *ngIf="expanded.categories">
-  <li *ngFor="let category of categories">
-    <input 
-      type="checkbox" 
-      (change)="toggleCategorySelection(category._id)" 
-      [checked]="selectedCategories.includes(category._id)" 
-    />
-    {{ category.name }}
-  </li>
-</ul>
-</div>
 
   <button (click)="applyFilters()">Apply Filters</button>
 </aside>
-<section class="selected-filters">
-  <span class="filter-tag">Wireless Headphones ❌</span>
-  <span class="filter-tag">Min $30 - Max $300 ❌</span>
-  <a href="#">Clear All</a>
+
+<section class="selected-filters" *ngIf="selectedCategoryId">
+  <span class="filter-tag">
+    Category: 
+    <ng-container *ngIf="getSelectedCategoryName() as selectedName">
+      {{ selectedName }}
+    </ng-container>
+    <button (click)="clearCategoryFilter()">❌</button>
+  </span>
 </section>
+
 <section class="product-list">
-  <div class="product-item" *ngFor="let product of products">
+  <div class="product-item" *ngFor="let product of filteredProducts">
     <img [src]="product.img" alt="{{ product.name }}" class="product-img" />
 
     <div class="product-details">
