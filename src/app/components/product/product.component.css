@@ -380,3 +380,41 @@
   border-radius: 6px;
   cursor: pointer;
 }
+
+.category-section {
+  padding: 2rem;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.category-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.category-card {
+  background: white;
+  padding: 1rem;
+  border-radius: 12px;
+  width: 120px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+  cursor: pointer;
+}
+.category-card:hover {
+  transform: scale(1.05);
+}
+
+.category-card img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 0.5rem;
+}
+
+.category-card h3 {
+  font-size: 1rem;
+  margin: 0;
+}

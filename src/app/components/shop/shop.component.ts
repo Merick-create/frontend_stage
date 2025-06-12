@@ -3,6 +3,7 @@ import { Product } from '../../entities/Product';
 import { ProductServiceService } from '../../services/product-service.service';
 import { ReviewsService } from '../../services/reviews.service';
 import { CartService } from '../../services/cart.service';
+import { CategoryService } from '../../services/category.service';
 @Component({
   selector: 'app-shop',
   standalone: false,
@@ -17,22 +18,21 @@ export class ShopComponent implements OnInit {
   searchTerm: string = '';
   sortBy: string = 'price';
   itemsPerPage: number = 9;
-
-  // Nuovi campi per filtro prezzo
   priceMin: number = 0;
   priceMax: number = 10000;
-
-  // Controllo sidebar
   showFilters: boolean = false;
   expanded = {
     categories: true,
     price: true
   };
 
+  categories: { _id: string; name: string }[] = [];
+
   constructor(
     private productService: ProductServiceService,
     private reviewsService: ReviewsService,
-    private cartService:CartService
+    private cartService:CartService,
+    private categoryService:CategoryService
   ) {}
 
   ngOnInit(): void {
@@ -80,15 +80,27 @@ export class ShopComponent implements OnInit {
   onSortChange(): void {
     this.applySorting();
   }
+ applyFilters(): void {
+  const filters = {
+    priceMin: this.priceMin,
+    priceMax: this.priceMax,
+    sortBy: this.sortBy,
+    sortOrder: 'asc', // oppure gestisci lato UI
+    page: 1,          
+    itemsPerPage: this.itemsPerPage,
+  };
 
-  // ✅ Metodo chiamato quando si clicca "Apply Filters"
-  applyFilters(): void {
-    this.filteredProducts = this.products.filter(p =>
-      p.price >= this.priceMin && p.price <= this.priceMax
-    );
-    this.applySorting();
-    this.showFilters = false;
-  }
+  this.productService.getFilteredProducts(filters).subscribe({
+    next: (res) => {
+      this.filteredProducts = res.products.filter((p: Product) => p.quantity > 0);
+      this.showFilters = false;
+    },
+    error: (err) => {
+      this.errorMessage = 'Errore nel caricamento dei prodotti filtrati';
+      console.error(err);
+    }
+  });
+}
 
   toggleFilters(): void {
     this.showFilters = !this.showFilters;
@@ -115,4 +127,25 @@ export class ShopComponent implements OnInit {
     }
   });
 }
+selectedCategories: string[] = [];
+
+toggleCategorySelection(categoryName: string) {
+  const index = this.selectedCategories.indexOf(categoryName);
+  if (index > -1) {
+    this.selectedCategories.splice(index, 1);
+  } else {
+    this.selectedCategories.push(categoryName);
+  }
+}
+ fetchCategories(): void {
+    this.categoryService.getAllCategories().subscribe({
+      next: data => {
+        this.categories = data;
+      },
+      error: err => {
+        console.error('Errore nel caricamento delle categorie:', err);
+      }
+    });
+  }
+
 }

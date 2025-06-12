@@ -1,22 +1,52 @@
 <link href="./nav-bar.component.css">
-<div *ngIf="LoginSrv.isAuthenticated$|async; else notLoggedIn">
-    <div class="d-flex justify-content-end align-items-center p-3">
-        <span class="pe-3">{{ firstName$ | async }} {{ lastName$ | async }}</span>
-        <div ngbDropdown class="d-inline-block">
-			<button type="button" class="btn btn-outline-dark" id="dropdownBasic1" ngbDropdownToggle>
-				<img [src]="img$ | async" class="img-fluid rounded-circle custom-img" alt="Avatar">
-			</button>
-			<div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-				<button ngbDropdownItem (click)="logout()">logOut</button>
-				
-			</div>
-		</div>
+
+<!-- Se loggato -->
+<div *ngIf="LoginSrv.isAuthenticated$ | async; else notLoggedIn">
+  <div class="d-flex justify-content-end align-items-center p-3 gap-3">
+
+    <span class="user-name">{{ firstName$ | async }} {{ lastName$ | async }}</span>
+
+    <div ngbDropdown class="d-inline-block">
+      <button type="button" class="btn btn-outline-dark" id="dropdownBasic1" ngbDropdownToggle>
+        <img [src]="img$ | async" class="img-fluid rounded-circle custom-img" alt="Avatar">
+      </button>
+      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+        <button ngbDropdownItem (click)="logout()">logOut</button>
+      </div>
     </div>
+
+    <div class="icon-wrapper position-relative">
+      <i class="bi bi-heart fs-5"></i>
+      <span class="badge bg-danger">0</span>
+    </div>
+
+    <div class="icon-wrapper position-relative d-flex align-items-center">
+      <i class="bi bi-cart fs-5"></i>
+      <span class="badge bg-danger">2</span>
+      <span class="cart-total ms-2">$120.00</span>
+    </div>
+  </div>
 </div>
-  
+
+<!-- Se non loggato -->
 <ng-template #notLoggedIn>
-    <div class="d-flex justify-content-end p-3">
+  <div class="d-flex justify-content-end align-items-center p-3 gap-3">
+
+    <div class="d-flex align-items-center">
+      <i class="bi bi-person me-1"></i>
       <button class="btn btn-primary" (click)="login()">Log In</button>
     </div>
+
+    <div class="icon-wrapper position-relative">
+      <i class="bi bi-heart fs-5"></i>
+      <span class="badge bg-danger">0</span>
+    </div>
+
+    <div class="icon-wrapper position-relative d-flex align-items-center">
+      <i class="bi bi-cart fs-5"></i>
+      <span class="badge bg-danger">2</span>
+      <span class="cart-total ms-2">$120.00</span>
+    </div>
+
+  </div>
 </ng-template>
-  

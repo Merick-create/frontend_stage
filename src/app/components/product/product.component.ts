@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Product, AddProdcutDTO,OptionalProductDTO} from '../../entities/Product';
 import { ProductServiceService } from '../../services/product-service.service';
 import { CartService } from '../../services/cart.service';
+import { Category } from '../../entities/category';
+import { CategoryService } from '../../services/category.service';
 @Component({
   selector: 'app-product',
   standalone: false,
@@ -22,6 +24,7 @@ export class ProductComponent implements OnInit {
   searchTerm: string = '';
   isAdmin = true;
   showModal = false;
+  categories:Category[]=[];
 
   closeModal(event: MouseEvent) {
     this.showModal = false;
@@ -31,17 +34,22 @@ export class ProductComponent implements OnInit {
   quantity: number = 1;          
 
   constructor(private productService: ProductServiceService,
-    private cartService:CartService
+    private cartService:CartService,
+    private categoryService:CategoryService
   ) {}
 
   ngOnInit() {
     this.fetchProducts();
+    this.categoryService.getAllCategories()
+    .subscribe({
+    next: (data: Category[]) => this.categories = data,
+    error: (err:any) => console.error('Errore categorie', err)
+  });
   }
 
   fetchProducts() {
     this.productService.getAll().subscribe({
       next: data => {
-        // Filtra prodotti con quantità > 0
         this.products = data.filter(p => p.quantity > 0);
       },
       error: err => {

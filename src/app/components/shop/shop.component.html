@@ -36,12 +36,18 @@
     </ul>
   </div>
   <div class="filter-group">
-    <h4 (click)="toggleCategory('price')">Filter by Price</h4>
-    <div *ngIf="expanded.price">
-      <input type="number" placeholder="Min" [(ngModel)]="priceMin" />
-      <input type="number" placeholder="Max" [(ngModel)]="priceMax" />
-    </div>
-  </div>
+  <h4 (click)="toggleCategory('categories')">Product Categories</h4>
+  <ul *ngIf="expanded.categories">
+  <li *ngFor="let category of categories">
+    <input 
+      type="checkbox" 
+      (change)="toggleCategorySelection(category._id)" 
+      [checked]="selectedCategories.includes(category._id)" 
+    />
+    {{ category.name }}
+  </li>
+</ul>
+</div>
 
   <button (click)="applyFilters()">Apply Filters</button>
 </aside>
