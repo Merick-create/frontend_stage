@@ -4,17 +4,13 @@ import { map } from 'rxjs';
 
 @Component({
   selector: 'app-user',
-  standalone:false,
+  standalone: false,
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css']
 })
 export class UserComponent {
   protected LoginSrv = inject(AuthService);
 
-  // Input dell'utente per l'URL dell'immagine
-  newImageUrl: string = '';
-
-  // Osservabili per mostrare i dati utente
   protected firstName$ = this.LoginSrv.currentUser$.pipe(
     map(user => user?.firstName ?? '')
   );
@@ -28,19 +24,26 @@ export class UserComponent {
   );
 
   protected img$ = this.LoginSrv.currentUser$.pipe(
-    map(user => user?.picture ?? '')
+    map(user => user?.picture ?? 'assets/default-avatar.png')
   );
 
-  // Cambia immagine chiamando il backend
+
+  protected newImageUrl: string = '';
+
   changeImg() {
-    if (this.newImageUrl.trim()) {
-      this.LoginSrv.updateUserPicture(this.newImageUrl).subscribe({
-        next: () => {
-          this.LoginSrv.fetchUser();
+    if (this.newImageUrl) {
+      this.LoginSrv.updateUserProfilePicture(this.newImageUrl).subscribe({
+        next: (updatedUser) => {
+          console.log('Immagine aggiornata con successo:', updatedUser);
           this.newImageUrl = '';
         },
-        error: (err) => console.error('Errore durante l\'aggiornamento dell\'immagine:', err)
+        error: (err) => {
+          console.error('Errore durante l\'aggiornamento dell\'immagine:', err);
+          alert('Impossibile aggiornare l\'immagine. Controlla l\'URL o riprova.');
+        }
       });
+    } else {
+      alert('Per favore, inserisci un nuovo URL per l\'immagine.');
     }
   }
 }
