@@ -24,9 +24,22 @@
   border: 1px solid #ddd;
   border-radius: 8px;
   transition: box-shadow 0.2s ease-in-out;
-  display: flex;
-  flex-direction: column;
+  display: flex; /* Make the product card a flex container */
+  flex-direction: column; /* Stack items vertically */
   align-items: center;
+  width: 300px; /* This was already set, keeping it for consistency */
+  justify-content: space-between; /* Distribute space so button is at the end */
+}
+
+.product-card .add-btn {
+  margin-top: auto; /* Pushes the button to the bottom */
+  background: #1e8f4d;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%; /* Make the button take full width of the card */
 }
 
 .product-card:hover {
@@ -345,15 +358,6 @@
   color: #1e8f4d;
 }
 
-.add-btn {
-  margin-top: 0.5rem;
-  background: #1e8f4d;
-  color: white;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
 
 .category-section {
   padding: 2rem;

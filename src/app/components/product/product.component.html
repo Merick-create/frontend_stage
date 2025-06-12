@@ -98,10 +98,9 @@
   </div>
 </section>
 
-<main class="product-section">
-  <h1 class="section-title">Prodotti Disponibili</h1>
-
-  <div class="product-grid">
+<section class="featured-products">
+  <h2 class="section-title">Prodotti Disponibili</h2>
+  <div class="featured-container">
     <div
       class="product-card"
       *ngFor="let prod of products"
@@ -114,7 +113,7 @@
       <strong>{{ prod.price | currency: 'EUR' }}</strong>
     </div>
   </div>
-</main>
+</section>
 <button 
   *ngIf="isAdmin"
   class="floating-add-button"
