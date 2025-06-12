@@ -1,5 +1,20 @@
- <app-nav-bar-tabs></app-nav-bar-tabs>
+<header class="site-header">
+  <div class="logo">TechStore</div>
 
+  <div class="search-bar">
+    
+
+    <div class="ricercaCarrello">
+      <input type="text" [(ngModel)]="searchTerm" placeholder="Cerca per nome prodotto" />
+      <button (click)="searchProducts()">🔍 Cerca</button>
+    </div>
+          
+
+
+    <app-nav-bar></app-nav-bar>
+  </div>
+</header>
+<app-nav-bar-tabs></app-nav-bar-tabs>
 <div class="container mx-auto p-4">
     <h1 class="text-2xl font-bold mb-6">Il tuo carrello</h1>
 

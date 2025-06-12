@@ -7,7 +7,7 @@
     <span class="user-name">{{ firstName$ | async }} {{ lastName$ | async }}</span>
 
     <div ngbDropdown class="d-inline-block">
-      <button type="button" class="btn btn-outline-dark" id="dropdownBasic1" ngbDropdownToggle>
+      <button (click)="goToUser()" type="button" class="btn btn-outline-dark" id="dropdownBasic1" ngbDropdownToggle>
         <img [src]="img$ | async" class="img-fluid rounded-circle custom-img" alt="Avatar">
       </button>
       <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
@@ -15,16 +15,9 @@
       </div>
     </div>
 
-    <div class="icon-wrapper position-relative">
-      <i class="bi bi-heart fs-5"></i>
-      <span class="badge bg-danger">0</span>
-    </div>
 
-    <div class="icon-wrapper position-relative d-flex align-items-center">
-      <i class="bi bi-cart fs-5"></i>
-      <span class="badge bg-danger">2</span>
-      <span class="cart-total ms-2">$120.00</span>
-    </div>
+
+
   </div>
 </div>
 
