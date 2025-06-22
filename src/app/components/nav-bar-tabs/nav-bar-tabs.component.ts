@@ -11,5 +11,6 @@ export class NavBarTabsComponent {
   navItems = [
     { label: 'Home Page', route: '/' },
     { label: 'Cart', route: '/cart' },
+    {label:'Shop',route:'/shop'}
   ];
 }
