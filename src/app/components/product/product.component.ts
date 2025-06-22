@@ -4,6 +4,8 @@ import { ProductServiceService } from '../../services/product-service.service';
 import { CartService } from '../../services/cart.service';
 import { Category } from '../../entities/category';
 import { CategoryService } from '../../services/category.service';
+import { AuthService } from '../../services/auth.service';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-product',
@@ -28,7 +30,10 @@ export class ProductComponent implements OnInit {
   categories:Category[]=[];
   cartTotal = 0;
   cartQuantity = 0;
-
+  protected LoginSrv=inject(AuthService)
+  protected role$ = this.LoginSrv.currentUser$.pipe(
+    map(user => user?.firstName ?? '')
+  );
   closeModal(event: MouseEvent) {
     this.showModal = false;
   }
@@ -49,6 +54,10 @@ export class ProductComponent implements OnInit {
     this.categoryService.getAllCategories().subscribe({
       next: (data: Category[]) => this.categories = data,
       error: (err: any) => console.error('Errore categorie', err)
+    });
+
+    this.role$.subscribe(roleValue => {
+      this.isAdmin = roleValue === 'admin';
     });
   }
 
@@ -124,5 +133,4 @@ export class ProductComponent implements OnInit {
       }
     });
   }
-
 }

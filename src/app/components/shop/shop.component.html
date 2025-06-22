@@ -1,3 +1,35 @@
+<header class="site-header">
+  <div class="logo">TechStore</div>
+
+  <div class="search-bar">
+    
+    <app-side-cart *ngIf="showSideCart" class="side-cart-panel" (close)="toggleSideCart()"></app-side-cart>
+    <div class="ricercaCarrello">
+      <input type="text" [(ngModel)]="searchTerm" placeholder="Cerca per nome prodotto" />
+      <button (click)="searchProducts()">🔍 Cerca</button>
+
+
+
+      <div class="shoppingCart" (click)="toggleSideCart()">
+        <div class="icon-wrapper position-relative d-flex align-items-center">
+          <span class="cart-total ms-2">€{{ cartTotal }}</span>
+          <i class="bi bi-cart fs-5"></i>
+
+          <div class="cart-image-wrapper position-relative">
+            <img src="assets/images/pippo.png" alt="Carrello" width="32" height="32" />
+            <span class="badge bg-danger position-absolute top-0 start-100 translate-middle">{{ cartQuantity }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+          
+
+
+    <app-nav-bar></app-nav-bar>
+  </div>
+</header>
+<app-nav-bar-tabs></app-nav-bar-tabs>
+
 <section class="shop-banner">
   <img src="" alt="Banner Left" />
   <h1>Shop</h1>

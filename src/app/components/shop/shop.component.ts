@@ -26,6 +26,10 @@ export class ShopComponent implements OnInit {
   showFilters: boolean = false;
   selectedCategoryId: string = '';
 
+
+  showSideCart = false;
+  cartTotal = 0;
+  cartQuantity = 0;
   constructor(
     private productService: ProductServiceService,
     private reviewsService: ReviewsService,
@@ -40,6 +44,9 @@ export class ShopComponent implements OnInit {
       this.fetchCategories();
       this.fetchProducts();
     });
+
+    this.cartService.getCartTotal().subscribe(total => this.cartTotal = total);
+    this.cartService.getCartQuantity().subscribe(qty => this.cartQuantity = qty);
   }
 
   fetchProducts(): void {
@@ -139,9 +146,14 @@ export class ShopComponent implements OnInit {
         alert(err.error?.error || 'Errore durante l\'aggiunta al carrello');
       }
     });
+    }
+    getSelectedCategoryName(): string | null {
+    const selected = this.categories.find(c => c._id === this.selectedCategoryId);
+    return selected ? selected.name : null;
   }
-  getSelectedCategoryName(): string | null {
-  const selected = this.categories.find(c => c._id === this.selectedCategoryId);
-  return selected ? selected.name : null;
-}
+
+  
+  toggleSideCart() {
+    this.showSideCart = !this.showSideCart;
+  }
 }
