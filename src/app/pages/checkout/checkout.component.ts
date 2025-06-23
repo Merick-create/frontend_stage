@@ -1,6 +1,16 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Component, inject, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
+import { Product } from '../../entities/Product';
+import { Router } from '@angular/router';
+
+
+interface CartItem {
+  id: string;
+  quantity: number;
+  product: Product;
+  user:string;
+}
 
 @Component({
   selector: 'app-checkout',
@@ -13,7 +23,12 @@ export class CheckoutComponent implements OnInit {
   checkout: any = null;
   orderConfirmed = false;
 
+  errorMessage: string = '';
+  cartItems: CartItem[] = [];
+  protected router=inject(Router)
   constructor(private http: HttpClient, public auth: AuthService) {}
+
+
 
   ngOnInit(): void {
     this.loadCheckout();
@@ -50,17 +65,16 @@ export class CheckoutComponent implements OnInit {
   }
 
 
-  
+
   destroyCheckout() {
-    // Prima conferma l'ordine
     this.http.post<any>('/api/checkout/confirm', {}).subscribe({
       next: (res) => {
         console.log('Ordine confermato:', res);
 
-        // Poi elimina il checkout
         this.http.delete<any>('/api/checkout').subscribe({
           next: (deleteRes) => {
             console.log('Checkout eliminato:', deleteRes);
+            this.cartItems = [];
             this.orderConfirmed = true;
             this.products = [];
             this.checkout = null;
@@ -79,4 +93,11 @@ export class CheckoutComponent implements OnInit {
     });
   }
 
+  gotoHome(){
+  this.router.navigate([''])
+    .then(() => {
+      window.location.reload();
+  });
+
+  }
 }

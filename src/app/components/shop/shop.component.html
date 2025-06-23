@@ -2,7 +2,7 @@
   <div class="logo">TechStore</div>
 
   <div class="search-bar">
-    
+
     <app-side-cart *ngIf="showSideCart" class="side-cart-panel" (close)="toggleSideCart()"></app-side-cart>
     <div class="ricercaCarrello">
       <input type="text" [(ngModel)]="searchTerm" placeholder="Cerca per nome prodotto" />
@@ -22,7 +22,7 @@
         </div>
       </div>
     </div>
-          
+
 
 
     <app-nav-bar></app-nav-bar>
@@ -44,10 +44,6 @@
     <select [(ngModel)]="sortBy" (change)="onSortChange()">
       <option value="price">Price</option>
       <option value="name">Name</option>
-    </select>
-    <select [(ngModel)]="itemsPerPage" (change)="applyFilters()">
-      <option value="9">9</option>
-      <option value="18">18</option>
     </select>
   </div>
 </section>
@@ -73,7 +69,7 @@
 
 <section class="selected-filters" *ngIf="selectedCategoryId">
   <span class="filter-tag">
-    Category: 
+    Category:
     <ng-container *ngIf="getSelectedCategoryName() as selectedName">
       {{ selectedName }}
     </ng-container>

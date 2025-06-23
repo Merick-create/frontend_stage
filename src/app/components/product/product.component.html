@@ -1,15 +1,16 @@
+
 <header class="site-header">
   <div class="logo">TechStore</div>
 
   <div class="search-bar">
-    
+
     <app-side-cart *ngIf="showSideCart" class="side-cart-panel" (close)="toggleSideCart()"></app-side-cart>
     <div class="ricercaCarrello">
       <input type="text" [(ngModel)]="searchTerm" placeholder="Cerca per nome prodotto" />
       <button (click)="searchProducts()">🔍 Cerca</button>
 
 
-      
+
       <div class="shoppingCart" (click)="toggleSideCart()">
         <div class="icon-wrapper position-relative d-flex align-items-center">
           <span class="cart-total ms-2">€{{ cartTotal }}</span>
@@ -22,7 +23,7 @@
         </div>
       </div>
     </div>
-          
+
 
 
     <app-nav-bar></app-nav-bar>
@@ -64,10 +65,10 @@
 <section class="category-section">
   <h2 class="section-title">Categorie Popolari</h2>
   <div class="category-grid">
-    <div 
-  class="category-card" 
-  *ngFor="let cat of categories" 
-  [routerLink]="['/shop']" 
+    <div
+  class="category-card"
+  *ngFor="let cat of categories"
+  [routerLink]="['/shop']"
   [queryParams]="{ category: cat._id }"
 >
   <img [src]="cat.img" [alt]="cat.name" />
@@ -90,7 +91,7 @@
       <img [src]="item.img" [alt]="item.name" />
       <h3>{{ item.name }}</h3>
       <p>{{ item.description }}</p>
-      <p class="old-price" *ngIf="item.price">€{{ item.price }}</p>
+
       <p class="price">€{{ item.price }}</p>
       <button class="add-btn" (click)="addToCart(item)">Add To Cart</button>
     </div>
@@ -114,7 +115,7 @@
     </div>
   </div>
 </section>
-<button 
+<button
   *ngIf="isAdmin"
   class="floating-add-button"
   (click)="showModal = true"

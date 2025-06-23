@@ -39,7 +39,7 @@ export class ProductComponent implements OnInit {
   }
   showSideCart = false;
   product: Product | null = null;
-  quantity: number = 1;          
+  quantity: number = 1;
 
   constructor(private productService: ProductServiceService,
     private cartService:CartService,
@@ -47,10 +47,11 @@ export class ProductComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+
     this.fetchProducts();
     this.cartService.getCartTotal().subscribe(total => this.cartTotal = total);
     this.cartService.getCartQuantity().subscribe(qty => this.cartQuantity = qty);
-    
+
     this.categoryService.getAllCategories().subscribe({
       next: (data: Category[]) => this.categories = data,
       error: (err: any) => console.error('Errore categorie', err)
