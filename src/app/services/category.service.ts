@@ -14,7 +14,7 @@ export class CategoryService {
     return this.http.get<Category>(`${this.apiUrl}/api/category/category/${id}`);
   }
 
-   getAllCategories() {
+  getAllCategories() {
     return this.http.get<{ _id: string; name: string, img:string }[]>(`${this.apiUrl}/api/category/categories`);
   }
 }

@@ -135,7 +135,12 @@
     <h3>Aggiungi Prodotto</h3>
 
     <input type="text" placeholder="Nome" [(ngModel)]="newProduct.name" />
-    <input type="text" placeholder="Categoria" [(ngModel)]="newProduct.id_categoria" />
+    <select [(ngModel)]="newProduct.id_categoria">
+      <option value="" disabled selected>Scegli una categoria</option>
+      <option *ngFor="let category of categories" [value]="category._id">
+        {{ category.name }}
+      </option>
+    </select>
     <input type="number" placeholder="Prezzo" [(ngModel)]="newProduct.price" />
     <input type="text" placeholder="Descrizione" [(ngModel)]="newProduct.description" />
     <input type="number" placeholder="Quantità" [(ngModel)]="newProduct.quantity" />

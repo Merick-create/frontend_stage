@@ -201,6 +201,13 @@
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+.modal-content select{
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
 
 .modal-content button {
   width: 100%;

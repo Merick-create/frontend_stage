@@ -2,13 +2,13 @@
   <div class="logo">TechStore</div>
 
   <div class="search-bar">
-    
+
 
     <div class="ricercaCarrello">
       <input type="text" [(ngModel)]="searchTerm" placeholder="Cerca per nome prodotto" />
       <button (click)="searchProducts()">🔍 Cerca</button>
     </div>
-          
+
 
 
     <app-nav-bar></app-nav-bar>
@@ -45,7 +45,7 @@
 
     <div *ngIf="!loading && cartItems.length > 0" class="grid gap-6">
         <div *ngFor="let item of cartItems" class="flex gap-4 items-center border rounded-xl shadow p-4">
-            <img [src]="item.product.img" [alt]="item.product.name" class="w-32 h-32 object-cover rounded-lg" />
+            <img  [src]="item.product.img" [alt]="item.product.name" style="width: 300px; height: 400px; object-fit: cover; border-radius: 12px; background-color: white; padding: 8px;"/>
 
             <div class="flex-1">
                 <h2 class="text-xl font-semibold">{{ item.product.name }}</h2>

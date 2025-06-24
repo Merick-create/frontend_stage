@@ -34,11 +34,13 @@
 }
 
 .product-card img {
-  width: 100%;
+  width: 200px;
   height: 180px;
-  object-fit: contain;
+  object-fit: cover;
   margin-bottom: 10px;
+  border-radius: 6px;
 }
+
 
 .product-card h2 {
   font-size: 1.1rem;
@@ -462,3 +464,5 @@
   color: white;
   border-radius: 50%;
 }
+
+
