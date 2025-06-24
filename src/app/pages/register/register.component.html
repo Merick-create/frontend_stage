@@ -25,12 +25,12 @@
         <div class="form-outline mb-3">
           <label class="form-label">Role</label>
           <div class="form-check">
-            <input class="form-check-input" type="radio" id="student" value="student" formControlName="role" />
-            <label class="form-check-label" for="student">Admin</label>
+            <input class="form-check-input" type="radio" id="Admin" value="Admin" formControlName="role" />
+            <label class="form-check-label" for="Admin">Admin</label>
           </div>
           <div class="form-check">
-            <input class="form-check-input" type="radio" id="teacher" value="teacher" formControlName="role" />
-            <label class="form-check-label" for="teacher">Common User</label>
+            <input class="form-check-input" type="radio" id="Common User" value="Common User" formControlName="role" />
+            <label class="form-check-label" for="Common User">Common User</label>
           </div>
           <div class="text-danger" *ngIf="registerForm.get('role')?.touched && registerForm.get('role')?.invalid">
             Role is required.

@@ -32,8 +32,6 @@
             <button (click)="increaseQty()">+</button>
           </div>
           <button class="add-to-cart" (click)="addToCart()">ADD TO CART</button>
-          <button class="icon-button"><i class="far fa-heart"></i></button>
-          <button class="icon-button"><i class="fas fa-exchange-alt"></i></button>
         </div>
 
         <button class="buy-now" (click)="buyNow()">Buy Now</button>
@@ -47,7 +45,7 @@
       <h1 class="section-title">Prodotti Consigliati</h1>
 
       <div class="product-grid">
-        <div class="product-card" *ngFor="let prod of suggestedProducts" style="cursor: pointer;">
+        <div class="product-card" *ngFor="let prod of suggestedProducts" style="cursor: pointer;" [routerLink]="['/details', prod.id]">
           <img [src]="prod.img" alt="{{ prod.name }}" />
 
           <h2>{{ prod.name }}</h2>
@@ -57,7 +55,7 @@
           </div>
           <div class="price">
             {{ prod.price | currency: 'EUR' }}
-          </div>  
+          </div>
           <button class="mini-add-cart">
             Aggiungi al Carrello
           </button>

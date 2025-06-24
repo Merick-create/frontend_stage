@@ -48,4 +48,9 @@ getByCategory(categoryId: string): Observable<Product[]> {
 
     return this.http.get<any>('/products/filtered', { params });
   }
+
+  updateQuantity(data: { id: string, quantity: number }) {
+    return this.http.patch('/api/product/update-quantity', data);
+  }
+
 }

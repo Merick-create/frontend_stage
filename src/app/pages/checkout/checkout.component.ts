@@ -70,21 +70,11 @@ export class CheckoutComponent implements OnInit {
     this.http.post<any>('/api/checkout/confirm', {}).subscribe({
       next: (res) => {
         console.log('Ordine confermato:', res);
-
-        this.http.delete<any>('/api/checkout').subscribe({
-          next: (deleteRes) => {
-            console.log('Checkout eliminato:', deleteRes);
-            this.cartItems = [];
-            this.orderConfirmed = true;
-            this.products = [];
-            this.checkout = null;
-            alert('Ordine confermato e spedito!');
-          },
-          error: (err) => {
-            console.error('Errore durante l\'eliminazione del checkout:', err);
-            alert('Errore nel completare l\'ordine.');
-          }
-        });
+        this.cartItems = [];
+        this.orderConfirmed = true;
+        this.products = [];
+        this.checkout = null;
+        alert('Ordine confermato e spedito!');
       },
       error: (err) => {
         console.error('Errore durante la conferma dell\'ordine:', err);

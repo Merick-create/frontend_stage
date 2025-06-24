@@ -1,11 +1,13 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { Product, AddProdcutDTO,OptionalProductDTO} from '../../entities/Product';
+import { Product, OptionalProductDTO } from '../../entities/Product';
 import { ProductServiceService } from '../../services/product-service.service';
 import { CartService } from '../../services/cart.service';
 import { Category } from '../../entities/category';
 import { CategoryService } from '../../services/category.service';
 import { AuthService } from '../../services/auth.service';
 import { map } from 'rxjs';
+import { take } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product',
@@ -25,71 +27,70 @@ export class ProductComponent implements OnInit {
     img: ''
   };
   searchTerm: string = '';
-  isAdmin = true;
   showModal = false;
-  categories:Category[]=[];
+  showEditQuantityModal = false;
+  selectedProductToEdit: Product | null = null;
+  newQuantity: number = 0;
+
+  categories: Category[] = [];
   cartTotal = 0;
   cartQuantity = 0;
-  protected LoginSrv=inject(AuthService)
-  protected role$ = this.LoginSrv.currentUser$.pipe(
-    map(user => user?.firstName ?? '')
-  );
-  closeModal(event: MouseEvent) {
-    this.showModal = false;
-  }
   showSideCart = false;
-  product: Product | null = null;
   quantity: number = 1;
 
-  constructor(private productService: ProductServiceService,
-    private cartService:CartService,
-    private categoryService:CategoryService
+  protected LoginSrv = inject(AuthService);
+  protected role$ = this.LoginSrv.currentUser$.pipe(
+    map(user => user?.role ?? '')
+  );
+  protected router = inject(Router);
+
+  constructor(
+    private productService: ProductServiceService,
+    private cartService: CartService,
+    private categoryService: CategoryService
   ) {}
 
   ngOnInit() {
-
     this.fetchProducts();
     this.cartService.getCartTotal().subscribe(total => this.cartTotal = total);
     this.cartService.getCartQuantity().subscribe(qty => this.cartQuantity = qty);
 
     this.categoryService.getAllCategories().subscribe({
-      next: (data: Category[]) => this.categories = data,
-      error: (err: any) => console.error('Errore categorie', err)
-    });
-
-    this.role$.subscribe(roleValue => {
-      this.isAdmin = roleValue === 'admin';
+      next: data => this.categories = data,
+      error: err => console.error('Errore categorie', err)
     });
   }
 
   fetchProducts() {
-    this.productService.getAll().subscribe({
-      next: data => {
-        this.products = data.filter(p => p.quantity > 0);
-      },
-      error: err => {
-        this.errorMessage = 'Errore nel caricamento prodotti';
-        console.error(err);
-      }
-    });
-  }
-
-
-  searchProducts() {
-    if (this.searchTerm.trim()) {
-      this.productService.getByName(this.searchTerm).subscribe({
+    this.role$.pipe(take(1)).subscribe(role => {
+      this.productService.getAll().subscribe({
         next: data => {
-          // Filtra anche i risultati della ricerca
-          this.products = data.filter(p => p.quantity > 0);
+          this.products = role === 'Admin' ? data : data.filter(p => p.quantity > 0);
         },
         error: err => {
-          this.errorMessage = 'Errore nella ricerca prodotti';
+          this.errorMessage = 'Errore nel caricamento prodotti';
           console.error(err);
         }
       });
-    } else {
-      this.fetchProducts();
-    }
+    });
+  }
+
+  searchProducts() {
+    this.role$.pipe(take(1)).subscribe(role => {
+      if (this.searchTerm.trim()) {
+        this.productService.getByName(this.searchTerm).subscribe({
+          next: data => {
+            this.products = role === 'Admin' ? data : data.filter(p => p.quantity > 0);
+          },
+          error: err => {
+            this.errorMessage = 'Errore nella ricerca prodotti';
+            console.error(err);
+          }
+        });
+      } else {
+        this.fetchProducts();
+      }
+    });
   }
 
   addProduct() {
@@ -104,6 +105,7 @@ export class ProductComponent implements OnInit {
           quantity: 0,
           img: ''
         };
+        this.showModal = false;
       },
       error: err => {
         this.errorMessage = 'Errore nell\'aggiunta del prodotto';
@@ -111,7 +113,6 @@ export class ProductComponent implements OnInit {
       }
     });
   }
-
 
   toggleSideCart() {
     this.showSideCart = !this.showSideCart;
@@ -133,5 +134,57 @@ export class ProductComponent implements OnInit {
         alert(err.error?.error || 'Errore durante l\'aggiunta al carrello');
       }
     });
+  }
+
+  handleProductClick(product: Product) {
+    this.role$.pipe(take(1)).subscribe(role => {
+      if (role === 'Admin' && product.quantity === 0) {
+        this.openEditQuantityModal(product);
+      } else {
+        if (product.id) {
+          this.router.navigate(['/details', product.id]);
+        } else {
+          console.warn('Tentativo di navigazione per un prodotto senza ID:', product);
+          alert('ID prodotto non disponibile per la navigazione.');
+        }
+      }
+    });
+  }
+
+  openEditQuantityModal(product: Product) {
+    this.selectedProductToEdit = { ...product };
+    this.newQuantity = product.quantity;
+    this.showEditQuantityModal = true;
+  }
+
+  updateProductQuantity() {
+  if (this.selectedProductToEdit?.id) {
+    const payload = {
+      id: this.selectedProductToEdit.id,
+      quantity: this.newQuantity
+    };
+
+    this.productService.updateQuantity(payload).subscribe({
+      next: () => {
+        this.fetchProducts();
+        this.closeEditQuantityModal();
+      },
+      error: err => {
+        console.error('Errore aggiornamento quantità:', err);
+        alert('Errore durante l\'aggiornamento della quantità.');
+      }
+    });
+  }
+}
+
+
+  closeEditQuantityModal() {
+    this.showEditQuantityModal = false;
+    this.selectedProductToEdit = null;
+    this.newQuantity = 0;
+  }
+
+  closeModal(event: MouseEvent) {
+    this.showModal = false;
   }
 }

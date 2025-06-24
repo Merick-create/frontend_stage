@@ -1,4 +1,3 @@
-
 <header class="site-header">
   <div class="logo">TechStore</div>
 
@@ -8,8 +7,6 @@
     <div class="ricercaCarrello">
       <input type="text" [(ngModel)]="searchTerm" placeholder="Cerca per nome prodotto" />
       <button (click)="searchProducts()">🔍 Cerca</button>
-
-
 
       <div class="shoppingCart" (click)="toggleSideCart()">
         <div class="icon-wrapper position-relative d-flex align-items-center">
@@ -23,9 +20,6 @@
         </div>
       </div>
     </div>
-
-
-
     <app-nav-bar></app-nav-bar>
   </div>
 </header>
@@ -37,7 +31,7 @@
       <p class="new-arrival">NEW ARRIVALS</p>
       <h2>4K LCD <span class="highlight">Quantum</span> Vision LCD</h2>
       <p>Limited Time: Online Only!</p>
-       <button [routerLink]="['/shop']">Shop Now</button>
+      <button [routerLink]="['/shop']">Shop Now</button>
     </div>
     <img src="assets/images/pluto.png" alt="Promo Monitor" />
   </div>
@@ -66,14 +60,14 @@
   <h2 class="section-title">Categorie Popolari</h2>
   <div class="category-grid">
     <div
-  class="category-card"
-  *ngFor="let cat of categories"
-  [routerLink]="['/shop']"
-  [queryParams]="{ category: cat._id }"
->
-  <img [src]="cat.img" [alt]="cat.name" />
-  <h3>{{ cat.name }}</h3>
-</div>
+      class="category-card"
+      *ngFor="let cat of categories"
+      [routerLink]="['/shop']"
+      [queryParams]="{ category: cat._id }"
+    >
+      <img [src]="cat.img" [alt]="cat.name" />
+      <h3>{{ cat.name }}</h3>
+    </div>
   </div>
 </section>
 
@@ -87,14 +81,19 @@
       <h3>Aero Control Pro Joysticks</h3>
       <p class="price">$120.00</p>
     </div>
-    <div class="product-card" *ngFor="let item of products">
+    <div class="product-card" *ngFor="let item of products" (click)="handleProductClick(item)">
       <img [src]="item.img" [alt]="item.name" />
       <h3>{{ item.name }}</h3>
       <p>{{ item.description }}</p>
 
       <p class="price">€{{ item.price }}</p>
-      <button class="add-btn" (click)="addToCart(item)">Add To Cart</button>
-    </div>
+
+      <div *ngIf="item.quantity === 0" class="position-absolute top-0 end-0 mt-2 me-2">
+        <span class="badge bg-danger rounded-pill px-3 py-2 fs-6">SOLD OUT</span>
+      </div>
+
+      <button *ngIf="item.quantity != 0" class="add-btn" (click)="$event.stopPropagation(); addToCart(item)">Add To Cart</button>
+      </div>
 
   </div>
 </section>
@@ -105,23 +104,31 @@
     <div
       class="product-card"
       *ngFor="let prod of products"
-      [routerLink]="['/details', prod.id]"
+      (click)="handleProductClick(prod)"
       style="cursor: pointer;"
     >
       <img [src]="prod.img" alt="{{ prod.name }}" />
       <h2>{{ prod.name }}</h2>
       <p>{{ prod.description }}</p>
       <strong>{{ prod.price | currency: 'EUR' }}</strong>
+
+      <div *ngIf="prod.quantity === 0" class="position-absolute top-0 end-0 mt-2 me-2">
+        <span class="badge bg-danger rounded-pill px-3 py-2 fs-6">SOLD OUT</span>
+      </div>
+
+      <button *ngIf="prod.quantity != 0" class="add-btn" (click)="$event.stopPropagation(); addToCart(prod)">Add To Cart</button>
     </div>
   </div>
 </section>
+
 <button
-  *ngIf="isAdmin"
+  *ngIf="(role$ | async) === 'Admin'"
   class="floating-add-button"
   (click)="showModal = true"
 >
   +
 </button>
+
 <div *ngIf="showModal" class="modal-backdrop" (click)="closeModal($event)">
   <div class="modal-content" (click)="$event.stopPropagation()">
     <span class="close-btn" (click)="showModal = false">&times;</span>
@@ -135,5 +142,30 @@
     <input type="text" placeholder="URL Immagine" [(ngModel)]="newProduct.img" />
 
     <button (click)="addProduct()">Aggiungi</button>
+  </div>
+</div>
+
+<div *ngIf="showEditQuantityModal" class="modal-backdrop" (click)="closeEditQuantityModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <span class="close-btn" (click)="closeEditQuantityModal()">&times;</span>
+    <h3>Modifica Quantità per {{ selectedProductToEdit?.name }}</h3>
+
+    <div *ngIf="selectedProductToEdit">
+      <div class="mb-3">
+        <label for="editQuantity" class="form-label">Nuova Quantità:</label>
+        <input
+          id="editQuantity"
+          type="number"
+          class="form-control"
+          [(ngModel)]="newQuantity"
+          min="0"
+          placeholder="Inserisci la nuova quantità"
+        />
+      </div>
+      <button class="btn btn-primary" (click)="updateProductQuantity()">Aggiorna Quantità</button>
+    </div>
+    <div *ngIf="!selectedProductToEdit" class="alert alert-warning">
+      <p>Nessun prodotto selezionato per la modifica.</p>
+    </div>
   </div>
 </div>

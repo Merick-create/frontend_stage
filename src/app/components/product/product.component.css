@@ -29,6 +29,7 @@
   align-items: center;
   width: 300px; /* This was already set, keeping it for consistency */
   justify-content: space-between; /* Distribute space so button is at the end */
+  position: relative;
 }
 
 .product-card .add-btn {
